@@ -1,0 +1,6 @@
+{
+  "_doc": "Домейни, които не са лендинг за клониране. Съвпадението е по суфикс на домейна (instagram.com хваща и l.instagram.com).",
+  "social": ["instagram.com", "facebook.com", "fb.me", "fb.com", "m.me", "wa.me", "messenger.com", "tiktok.com", "youtube.com", "youtu.be", "linktr.ee", "pinterest.com", "threads.net", "whatsapp.com"],
+  "marketplaces": ["amazon.com", "amazon.de", "amazon.co.uk", "amazon.fr", "amazon.it", "amazon.es", "amazon.pl", "amzn.to", "ebay.com", "etsy.com", "temu.com", "aliexpress.com", "shein.com", "walmart.com", "emag.bg", "emag.ro", "allegro.pl", "notino.bg", "notino.ro", "notino.com", "douglas.de", "dm.de", "rossmann.de", "sephora.com", "boots.com", "kaufland.de", "otto.de", "bol.com", "zalando.com"],
+  "pharma_brands": ["bioderma.bg", "bioderma.com.ro", "bioderma.com", "laroche-posay.com", "cerave.com", "eucerin.com", "avene.com", "physiogel.de", "shop.physiogel.de", "vichy.com", "uriage.com", "ducray.com", "aveeno.com", "sesderma.com", "neutrogena.com", "nivea.com"]
+}
