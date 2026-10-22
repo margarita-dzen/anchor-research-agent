@@ -1,0 +1,115 @@
+"""Цялото QA на клонинг в един Markdown доклад: сходство с оригинала + копи/техника + отзиви.
+
+    python3 agent/qa/run_qa.py <оригинал: URL или папка src/> <клонинг: URL> --client so_simple \
+        [--lang bg|ro] [--bank ~/Clients/So-Simple/reviews/bank.json] [--product atopi] \
+        [--out qa_out/<име>] [--threshold 85] [--widths 390,1440] [--max-height 16000]
+
+Вердикт „ГОТОВО“ само ако: оценката за сходство >= прага, 0 грешки в копито/техниката и 0 отзива извън банката.
+Пише в --out: report.md, qa.json, cmp_<w>_<nn>.jpg (оригинал | клонинг), original/ и clone/ (снимки, outline, текст).
+Банката на отзивите се взима от agent/config/clients.json (reviews.bank), ако не е подадена.
+"""
+import argparse, datetime, json, os, re, sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import compare as cmp_mod
+import lint_copy
+import check_reviews
+
+
+def client_bank(client):
+    try:
+        c = json.load(open(os.path.join(HERE, "..", "config", "clients.json")))
+        return (c.get(client, {}).get("reviews") or {}).get("bank")
+    except Exception:
+        return None
+
+
+def slug(url):
+    s = re.sub(r"^https?://", "", url).split("?")[0].strip("/")
+    return re.sub(r"[^\w.-]+", "_", s)[-60:] or "page"
+
+
+def md_report(original, clone, args, cres, lres, rres):
+    ok_cmp = cres["score"] >= args.threshold
+    ok_lint = lres["errors"] == 0
+    ok_rev = rres is None or rres["bad"] == 0
+    ready = ok_cmp and ok_lint and ok_rev
+    L = [f"# QA на клонинг: {'ГОТОВО' if ready else 'НЕ Е ГОТОВО'}", ""]
+    L.append(f"- Оригинал: {original}")
+    L.append(f"- Клонинг: {clone}")
+    L.append(f"- Клиент: {args.client}, език: {args.lang or 'bg'}, дата: {datetime.date.today().isoformat()}")
+    L.append("")
+    L.append("| Проверка | Резултат | Минава |")
+    L.append("|---|---|---|")
+    L.append(f"| Сходство с оригинала | {cres['score']}/100 (праг {args.threshold}) | {'да' if ok_cmp else 'НЕ'} |")
+    L.append(f"| Копи и техника | {lres['errors']} грешки, {lres['warnings']} за проверка | {'да' if ok_lint else 'НЕ'} |")
+    if rres is None:
+        L.append("| Отзиви | не е проверено (няма банка) | ? |")
+    else:
+        L.append(f"| Отзиви | {len(rres['reviews'])} на страницата, {rres['bad']} извън банката, {rres['manual']} за ръчна проверка | {'да' if ok_rev else 'НЕ'} |")
+    L.append("")
+    L.append("## 1. Сходство с оригинала (секция по секция)")
+    L.append("")
+    L.append("```")
+    L.append(cres["report"])
+    L.append("```")
+    for w, r in cres["widths"].items():
+        if r.get("images"):
+            L.append(f"Снимки едно до друго ({w} px): " + ", ".join(os.path.basename(p) for p in r["images"][:60]))
+            L.append("")
+    L.append("## 2. Копи и техника")
+    L.append("")
+    L.append("```")
+    L.append(lint_copy.text_report(lres))
+    L.append("```")
+    L.append("")
+    L.append("## 3. Отзиви срещу банката")
+    L.append("")
+    if rres is None:
+        L.append("Няма банка с отзиви за клиента.")
+    else:
+        L.append("```")
+        L.append(check_reviews.text_report(rres))
+        L.append("```")
+    return "\n".join(L) + "\n", ready
+
+
+def main():
+    ap = argparse.ArgumentParser(description="QA на клонинг: сходство + копи + отзиви → report.md")
+    ap.add_argument("original")
+    ap.add_argument("clone")
+    ap.add_argument("--client", default="so_simple")
+    ap.add_argument("--lang", default=None)
+    ap.add_argument("--bank", default=None)
+    ap.add_argument("--product", default=None)
+    ap.add_argument("--scope", default=None)
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--threshold", type=float, default=85)
+    ap.add_argument("--widths", default="390,1440")
+    ap.add_argument("--max-height", type=int, default=None)
+    a = ap.parse_args()
+    out = a.out or os.path.join("qa_out", slug(a.clone))
+    os.makedirs(out, exist_ok=True)
+    widths = [int(x) for x in a.widths.split(",")]
+    print("1/3 сравнение с оригинала…", flush=True)
+    cres = cmp_mod.compare(a.original, a.clone, out, widths=widths, threshold=a.threshold, max_height=a.max_height)
+    print("2/3 копи и техника…", flush=True)
+    lres = lint_copy.lint(a.clone, a.client, lang=a.lang, scope=a.scope)
+    bank = a.bank or client_bank(a.client)
+    rres = None
+    if bank and os.path.exists(os.path.expanduser(bank)):
+        print("3/3 отзиви…", flush=True)
+        rres = check_reviews.check(a.clone, bank, a.product)
+    md, ready = md_report(a.original, a.clone, a, cres, lres, rres)
+    open(os.path.join(out, "report.md"), "w").write(md)
+    dump = dict(compare=json.load(open(os.path.join(out, "compare.json"))), lint=lres, reviews=rres, ready=ready)
+    json.dump(dump, open(os.path.join(out, "qa.json"), "w"), ensure_ascii=False, indent=1)
+    print(md)
+    print(f"Докладът: {os.path.join(out, 'report.md')}")
+    sys.exit(0 if ready else 1)
+
+
+if __name__ == "__main__":
+    main()

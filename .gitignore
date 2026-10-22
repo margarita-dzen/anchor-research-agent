@@ -8,3 +8,4 @@ runs/*/outcomes.json
 runs/*/credits.jsonl
 !runs/*/feedback.jsonl
 !runs/*/state.json
+qa_out/
