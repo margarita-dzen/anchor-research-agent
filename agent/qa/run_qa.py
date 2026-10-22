@@ -35,7 +35,7 @@ def slug(url):
 # липсата им не е грешка на клонинга. Ако всичко липсващо е от тях, прагът пада до FLOOR.
 ALLOWED_MISSING = re.compile(r"geld.?zur|money.?back|guarantee|garan|гаранц|risk.?free|clinical|klinisch|study|studie|проучване|"
                              r"\bdr\.|doctor|arzt|dermatolog|лекар|celebrit|famous|знаменит|timer|countdown|таймер|subscri|abonn|абонам|"
-                             r"impressum|imprint|sichere transaktion|secure checkout|hergestellt|made in", re.I)
+                             r"impressum|imprint|sichere transaktion|secure checkout|hergestellt|made in|low stock|stock notice|sold out|selling fast|недостиг|deal ending|cured", re.I)
 FLOOR = 70
 
 
