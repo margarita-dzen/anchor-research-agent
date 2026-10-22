@@ -64,12 +64,19 @@
     "product": "~/.claude/client-context/nordics/PRODUCT.md",
     "reviews": {
       "source": "woocommerce",
-      "url": "https://wearenordics.com/wp-json/wc/store/v1/products/reviews"
+      "url": "https://wearenordics.com/wp-json/wc/store/v1/products/reviews",
+      "bank": "~/Clients/Nordics/reviews/bank.json",
+      "build": "python3 agent/collect_reviews.py --platform woo --site https://wearenordics.com --out ~/Clients/Nordics/reviews && python3 agent/review_bank.py ~/Clients/Nordics/reviews",
+      "note": "Woo: 38 отзива само за детските звукови четки (показани и на Панда, и на Жираф). Без снимки. Цитати от каруселите: начална (9) + PDP блок „Какво мислят хората“ (2) в extra/site_quotes.json. Drive 2025-10_loose-files/nordics_reviews.docx = същите 38. За зъбен душ, пасти и HALO на сайта отзиви няма (освен цитата на Пресила Петрова за душа и Elena K. за пастата). Elena Ilieva („препоръчвам на пациентите си“) НИКОГА със снимката на д-р Балева. Iva Lalova не е купувач. IG: експертни рийлове на д-р Балева, Raya morning routine (UGC)."
     },
     "drive_root_id": "1KLWeQkAQXJOLEo0oUw4ZZ_z2O4zRhkWt",
     "drive_hints": {
       "ugc_инфлуенсъри": [
-        "2026-03_нордикс-2/",
+        "2026-03_нордикс-2/UGC Nordics/",
+        "2026-03_нордикс-2/iskramintova/",
+        "2026-03_нордикс-2/vesssyy/",
+        "2026-03_нордикс-2/yoanna.s.nikolova/",
+        "2026-08_nordics-drive-upload/07 UGC & creators/",
         "2026-05_nordics-ugc-edits/"
       ],
       "halo": [
@@ -79,6 +86,9 @@
       "клонирани_образци": [
         "2026-09_nordics-клонирани-02-09-2026/",
         "2026-08_nordics-advertorial-revisions/"
+      ],
+      "отзиви": [
+        "2025-10_loose-files/nordics_reviews.docx"
       ]
     },
     "local": [

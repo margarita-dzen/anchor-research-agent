@@ -61,15 +61,39 @@ def download(url, path):
         return False
 
 
+def woo(site, out):
+    """WooCommerce Store API (публичен): /wp-json/wc/store/v1/products/reviews. Снимки към отзивите API-то не дава."""
+    allr, page = [], 1
+    while True:
+        batch = get_json(f"{site}/wp-json/wc/store/v1/products/reviews?per_page=100&page={page}")
+        if not batch:
+            break
+        for r in batch:
+            allr.append(dict(product=r["product_permalink"].rstrip("/").rsplit("/", 1)[-1], product_title=r["product_name"],
+                             uuid=str(r["id"]), name=r.get("reviewer"), anonymous=False, rating=r.get("rating"), title="",
+                             body=text(r.get("review")), date=(r.get("date_created") or "")[:10], language=None,
+                             verified=r.get("verified"), location=None, pictures=[], videos=[], variant=None, from_bundle=None))
+        page += 1
+    json.dump(allr, open(f"{out}/reviews.json", "w"), ensure_ascii=False, indent=1)
+    by = {}
+    for r in allr:
+        by.setdefault(r["product"], dict(handle=r["product"], title=r["product_title"], reviews=0, with_media=0))["reviews"] += 1
+    json.dump(sorted(by.values(), key=lambda s: -s["reviews"]), open(f"{out}/summary.json", "w"), ensure_ascii=False, indent=1)
+    print(f"общо {len(allr)} отзива, {len(by)} продукта")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--site", required=True)
-    ap.add_argument("--shop", required=True, help="*.myshopify.com домейнът")
+    ap.add_argument("--shop", help="*.myshopify.com домейнът (Shopify + Judge.me)")
+    ap.add_argument("--platform", choices=["shopify", "woo"], default="shopify")
     ap.add_argument("--out", required=True)
     ap.add_argument("--handle", action="append", help="само тези продукти")
     a = ap.parse_args()
     out = os.path.expanduser(a.out)
     os.makedirs(f"{out}/photos", exist_ok=True)
+    if a.platform == "woo":
+        return woo(a.site.rstrip("/"), out)
     prods = [p for p in products(a.site.rstrip("/")) if not a.handle or p["handle"] in a.handle]
     allr, summary = [], []
     for p in prods:

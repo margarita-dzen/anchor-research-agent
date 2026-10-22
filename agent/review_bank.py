@@ -6,6 +6,7 @@
   reviews.json                 (collect_reviews.py, Judge.me на живо)
   drive/**/*.csv               (износ от Judge.me: title, body, rating, review_date, reviewer_name, product_handle, picture_urls)
   drive/**/*.xlsx              (таблици „Име | Отзив“, напр. препоръки от Facebook; продуктът = името на файла)
+  extra/*.json                 ([{product, name, body, source, pictures?}], напр. цитати от каруселите на сайта, docx)
 Пише bank.json и bank.md. Имейлите и IP адресите от износите НЕ се копират.
 Дубликатите (същото име + същото начало на текста) се сливат, а снимките се запазват.
 """
@@ -59,6 +60,11 @@ def load(root):
             rows.append(dict(product="xlsx:" + os.path.splitext(os.path.basename(f))[0], name=clean_name(str(r[ni] or "")),
                              body=str(r[bi]).replace("\xa0", " ").strip(), rating=None, date=None, language=None,
                              pictures=[], videos=[], source=f"drive xlsx: {os.path.basename(f)}"))
+    for f in glob.glob(os.path.join(root, "extra", "*.json")):
+        for r in json.load(open(f)):
+            rows.append(dict(product=r.get("product"), name=r.get("name"), body=r["body"], rating=r.get("rating"),
+                             date=r.get("date"), language=None, pictures=r.get("pictures") or [], videos=[],
+                             source=r.get("source") or os.path.basename(f)))
     return rows
 
 
