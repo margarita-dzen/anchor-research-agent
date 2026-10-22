@@ -26,7 +26,23 @@ RISK = (r"\bcure[ds]?\b|\bheal(s|ed|ing)?\b|\btreat(s|ed|ment)?\b|steroid|cortis
         r"heilt|heilung|behandl|guérit|traite|vindec|tratament|лекува|излекув|стероид|лечени|"
         r"\b\d{2,3}\s?% (success|of users|erfolg)|clinically proven|klinisch|doctor recommended|dermatologist recommended")
 REVIEW_HINT = r"★|⭐|verified (buyer|purchase)|„[^“]{20,300}“|\"[^\"]{20,300}\"\s*[-—–]\s*[A-ZА-Я]"
-WEIGHTS = dict(type=25, relevance=25, angle=20, safety=15, proof=15)
+WEIGHTS = dict(type=20, relevance=25, angle=20, safety=10, proof=15, market=10)
+EU = {"AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"}
+
+
+def market_score(f, markets):
+    """1 = конкурент на нашия пазар (домейн или държави на рекламите), 0.5 = друг пазар в ЕС, 0.2 = извън ЕС."""
+    if not markets:
+        return 0.5
+    m = {x.upper() for x in markets}
+    host = re.sub(r"^https?://", "", (f.get("steps") or [{}])[0].get("url") or "").split("/")[0]
+    tld = host.rsplit(".", 1)[-1].upper()
+    cc = {c.upper() for c in (f.get("ad_evidence") or {}).get("countries", [])}
+    if tld in m or cc & m:
+        return 1.0
+    if tld in EU or cc & EU:
+        return 0.5
+    return 0.2
 
 
 def rx(p):
@@ -97,33 +113,70 @@ def fit_score(f, cfg, ours):
     # колко отзивни блока има оригиналът срещу колко истински имаме: снимките тежат 60%, текстовете 40%
     need = max(3, len(re.findall(REVIEW_HINT, text)))
     s["proof"] = 0.5 if ours is None else 0.6 * min(1.0, ours["media"] / need) + 0.4 * min(1.0, ours["reviews"] / (need * 3))
+    s["market"] = market_score(f, cfg.get("markets"))
     score = round(sum(WEIGHTS[k] * v for k, v in s.items()), 1)
     return score, {k: round(v, 2) for k, v in s.items()}, dict(angles=angles, risk_terms=risk, review_blocks_in_original=need)
 
 
+def local_evidence(row, markets, min_days=90):
+    """Конкурент на нашия пазар с малко реклами: ако единственият отказ е броят, а рекламата е активна,
+    върви >= min_days и е в наш пазар, малката извадка в Ad Library не значи, че фунията е слаба."""
+    from evidence import evidence_score
+    only_count = all(r.startswith("под ") for r in row.get("rejected", []))
+    local = {c.upper() for c in row.get("countries", [])} & {m.upper() for m in markets or []}
+    if not (only_count and local and row.get("active_ads") and row.get("max_days", 0) >= min_days):
+        return None
+    sig = {k: row.get(k) for k in ("active_ads", "duplicates", "new_ads_30d", "max_days", "domain_visits")}
+    sig["countries"] = len(row.get("countries", []))
+    return evidence_score(sig)[0]
+
+
 def funnels_mode(a):
     cfg = load_run(a.run)
+    cfg.setdefault("markets", json.load(open(a.run)).get("markets"))
     fns = json.load(open(a.funnels))
-    ev = {}
+    ev, rej = {}, {}
     if a.evidence:
-        for r in json.load(open(a.evidence))["passed"]:
+        e = json.load(open(a.evidence))
+        for r in e["passed"]:
             ev[r["url"]] = r["evidence"]
+        for r in e.get("rejected", []):
+            rej[r["url"]] = r
     ours = bank_proof(a.bank, cfg.get("bank_products"))
     for f in fns:
         f["fit"], f["fit_breakdown"], f["fit_notes"] = fit_score(f, cfg, ours)
         url = (f.get("steps") or [{}])[0].get("url") or ""
         u = re.sub(r"^https?://(www\.)?", "https://", url.split("?")[0]).rstrip("/")
         f["evidence"] = ev.get(u)
+        f["evidence_source"] = "url"
+        if f["evidence"] is None:
+            # няма реклами точно към този URL: най-силният URL на същия домейн × 0.8
+            host = u.split("/")[2] if u.count("/") >= 2 else ""
+            same = [v for k, v in ev.items() if k.split("/")[2:3] == [host]]
+            if same:
+                f["evidence"], f["evidence_source"] = round(max(same) * 0.8, 1), "домейн × 0.8"
+            elif u in rej:
+                le = local_evidence(rej[u], cfg.get("markets"))
+                if le is not None:
+                    f["evidence"], f["evidence_source"] = le, "местен пазар, малка извадка"
         f["final"] = round(0.6 * f["evidence"] + 0.4 * f["fit"], 1) if f["evidence"] is not None else None
     fns.sort(key=lambda f: -(f["final"] if f["final"] is not None else f["fit"] * 0.4))
+    # местните конкуренти (нашият пазар) винаги излизат в отделен списък: топ 2 от тях отиват в избора,
+    # защото Ad Library вижда малко от местните реклами (еталон ATOPI: Karbonoir RO, 1 реклама от 341 дни)
+    # подредени по пасване, не по сила: при местните силата е ненадеждна
+    local = sorted([f for f in fns if f["fit_breakdown"]["market"] == 1.0], key=lambda f: -f["fit"])
+    for i, f in enumerate(local):
+        f["local_rank"] = i + 1
     json.dump(fns, open(a.out, "w"), ensure_ascii=False, indent=1)
     print(f"банка: {ours}")
-    print(f"{'крайна':>6} {'сила':>5} {'пасв':>5}  тип  тема ъгъл безоп док  фуния")
+    if local:
+        print("местни конкуренти (топ 2 винаги в избора):", ", ".join(f"{f.get('brand', '')[:24]} ({f['fit']})" for f in local[:2]))
+    print(f"{'крайна':>6} {'сила':>5} {'пасв':>5}  тип  тема ъгъл безоп док  пазар фуния")
     for f in fns:
         b = f["fit_breakdown"]
         fin = f"{f['final']:6.1f}" if f["final"] is not None else "     -"
         evs = f"{f['evidence']:5.1f}" if f["evidence"] is not None else "    -"
-        print(f"{fin} {evs} {f['fit']:5.1f}  {b['type']:.2f} {b['relevance']:.2f} {b['angle']:.2f} {b['safety']:.2f} {b['proof']:.2f}  {f.get('brand', '')[:28]}")
+        print(f"{fin} {evs} {f['fit']:5.1f}  {b['type']:.2f} {b['relevance']:.2f} {b['angle']:.2f} {b['safety']:.2f} {b['proof']:.2f} {b['market']:.2f}  {f.get('brand', '')[:28]}")
 
 
 def main():

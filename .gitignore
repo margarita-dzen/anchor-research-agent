@@ -3,3 +3,8 @@ __pycache__/
 # Изходи на пусканията (сурови реклами, визии, кешове): в git е само run.json
 runs/*/*
 !runs/*/run.json
+runs/*/results.json
+runs/*/outcomes.json
+runs/*/credits.jsonl
+!runs/*/feedback.jsonl
+!runs/*/state.json

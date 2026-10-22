@@ -26,6 +26,12 @@ SIGNALS = {
     "countries": (10, 6, "log"),
     "domain_visits": (10, 1_000_000, "log"),
 }
+# донастроени тегла от agent/calibrate.py (по реални продажби); таваните остават
+_W = os.path.join(HERE, "config", "weights.json")
+if os.path.exists(_W):
+    for _k, _w in json.load(open(_W)).get("weights", {}).items():
+        if _k in SIGNALS:
+            SIGNALS[_k] = (_w,) + SIGNALS[_k][1:]
 GATE = dict(min_ads=3, min_dups_single=5, min_active=1)
 NEW_WINDOW_DAYS = 30
 

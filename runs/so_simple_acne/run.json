@@ -33,5 +33,6 @@
   },
   "ad_account": "act_2897573163607813",
   "client_dir": "So-Simple",
-  "reviews_build": "python3 ~/anchor-research-agent/agent/collect_reviews.py --site https://sosimplecosmetics.eu --shop so-simple-cosmetics.myshopify.com --out ~/Clients/So-Simple/reviews && python3 ~/anchor-research-agent/agent/review_bank.py ~/Clients/So-Simple/reviews"
+  "reviews_build": "python3 ~/anchor-research-agent/agent/collect_reviews.py --site https://sosimplecosmetics.eu --shop so-simple-cosmetics.myshopify.com --out ~/Clients/So-Simple/reviews && python3 ~/anchor-research-agent/agent/review_bank.py ~/Clients/So-Simple/reviews",
+  "harvest_config": "runs/example/run.json"
 }

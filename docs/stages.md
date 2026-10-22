@@ -17,7 +17,7 @@
 Изход: `funnels/funnels_<p>.json` (схемата от брифа). После автоматично `fit`.
 
 ## избор
-Артефакт по шаблона `~/so-simple-ointments-research/acne_pick/` (template.html + data.json): ъгли, хукове, фунии с Да / Може би / Не + бележка. Фуниите показват **силата и пасването поотделно** + крайната оценка. Изборите са в db колекция `picks`, четат се с ArtifactData list.
+Артефакт по шаблона `~/so-simple-ointments-research/acne_pick/` (template.html + data.json): ъгли, хукове, фунии с Да / Може би / Не + бележка. Фуниите показват **силата и пасването поотделно** + крайната оценка. Отделна секция „Местни конкуренти“ (нашият пазар) с топ 2 винаги, дори при ниска сила: Ad Library вижда малко от местните реклами. Изборите са в db колекция `picks`, четат се с ArtifactData list.
 
 ## реклами
 anchor-creative-playbook + copy-masters. Преди генерации: `python3 agent/credits.py start runs/<x> ads`, след тях `end`. Всяка реклама: `utm_campaign=<продукт>_<тип>_<месец><год>`, `utm_content=<код>-<автор>`.

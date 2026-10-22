@@ -22,10 +22,11 @@ def stages(cfg, run_dir):
     ads = os.path.expanduser(cfg.get("ads", f"{d}/ads/ads_all.json"))
     prod = " ".join(f"--product {x}" for x in cfg.get("evidence_products", [p]))
     rj = os.path.join(run_dir, "run.json")
+    hc = os.path.join(ROOT, cfg["harvest_config"]) if cfg.get("harvest_config") else rj  # конфигурацията на adlib (заявки, теми)
     bank = os.path.expanduser(cfg.get("bank", f"~/Clients/{cfg.get('client_dir', '')}/reviews/bank.json"))
     return [
-        ("harvest", "auto", f"python3 {A}/adlib/harvest.py {rj}", "Сваляне на рекламите от Ad Library по run.json (queries)"),
-        ("consolidate", "auto", f"python3 {A}/adlib/consolidate.py {rj}", "Обединяване по collation_id, визии"),
+        ("harvest", "auto", f"python3 {A}/adlib/harvest.py {hc} && python3 {A}/adlib/harvest.py {hc} --top-pages 5", "Сваляне на рекламите от Ad Library по run.json (queries)"),
+        ("consolidate", "auto", f"python3 {A}/adlib/consolidate.py {hc} && python3 {A}/adlib/thumbs.py {hc} && python3 {A}/adlib/eu_reach.py {hc} --top 100", "Обединяване по collation_id, визии"),
         ("evidence", "auto", f"python3 {A}/evidence.py {ads} {prod} --out {d}/ads/landing_evidence_{p}.json", "Сила на доказателствата"),
         ("relevance", "auto", f"python3 {A}/fit.py relevance {d}/ads/landing_evidence_{p}.json {ads} --run {rj} --out {d}/ads/landing_ranked_{p}.json", "Чистене от теми извън продукта"),
         ("reviews", "auto", cfg.get("reviews_build", ""), "Банка с истински отзиви на клиента"),
