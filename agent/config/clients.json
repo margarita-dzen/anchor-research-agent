@@ -1,0 +1,35 @@
+{
+  "_doc": "Откъде се взимат материали за фуниите, по клиент. Ред на търсене: site → reviews → drive → local → instagram. drive_root_id се чете с rclone: rclone lsf gdrive: --drive-root-folder-id <id>",
+  "so_simple": {
+    "site": ["https://sosimplecosmetics.eu", "https://sosimple.ro"],
+    "brand_book": "~/.claude/client-context/so-simple/DESIGN.md",
+    "product": "~/.claude/client-context/so-simple/PRODUCT.md",
+    "reviews": {"source": "judge.me", "note": "Judge.me на продукта + папки „Judge me reviews“ и „Отзиви“ в Drive"},
+    "drive_root_id": "1_LL9zNSe4ajelpcq3K98xMuG_4_-dO3V",
+    "drive_hints": {
+      "отзиви": ["Judge me reviews/", "Отзиви/", "Цитати/"],
+      "ugc_инфлуенсъри": ["Anchor Media UGC/", "Videos So Simple/", "Beauty mama/", "Задание Инфлуенсъри 2024/"],
+      "продуктови_снимки": ["Продуктови снимки/", "Стикове/", "Photosession Eli | March 2025/", "Acne gone set/"],
+      "ai_персонажи": ["AI Characters So Simple/"],
+      "текстове": ["Текстове/"]
+    },
+    "local": ["~/Clients/So-Simple", "~/so-simple-ointments-research/product", "~/so-simple-acne-clones/media"],
+    "instagram": {"handle": "sosimplenaturalcosmetics", "ig_id": "17841404080571148", "token": "Token 2 (AnchorMedia), /{ig-id}/media"},
+    "experts": [{"name": "Елица (основателка)", "role": "основателка, „създадено от майка“"}]
+  },
+  "nordics": {
+    "site": ["https://wearenordics.com"],
+    "brand_book": "~/.claude/client-context/nordics/DESIGN.md",
+    "product": "~/.claude/client-context/nordics/PRODUCT.md",
+    "reviews": {"source": "woocommerce", "url": "https://wearenordics.com/wp-json/wc/store/v1/products/reviews"},
+    "drive_root_id": "1KLWeQkAQXJOLEo0oUw4ZZ_z2O4zRhkWt",
+    "drive_hints": {
+      "ugc_инфлуенсъри": ["2026-03_нордикс-2/", "2026-05_nordics-ugc-edits/"],
+      "halo": ["2026-07_halo-launch/", "2026-08_nordics-halo-15-brand-photos/"],
+      "клонирани_образци": ["2026-09_nordics-клонирани-02-09-2026/", "2026-08_nordics-advertorial-revisions/"]
+    },
+    "local": ["~/Clients/Nordics"],
+    "instagram": {"handle": "nordicsoralcare", "ig_id": "17841404055631759", "token": "Token 2 (AnchorMedia), /{ig-id}/media"},
+    "experts": [{"name": "д-р Юнуз", "role": "зъболекар, реално сътрудничество"}, {"name": "д-р Балева", "role": "зъболекар"}]
+  }
+}
