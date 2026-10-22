@@ -37,7 +37,7 @@ def stages(cfg, run_dir):
         ("clone", "claude", "docs/absolute-clone.md", "Клониране на избраните фунии (clone_mode.py решава дизайна)"),
         ("copy", "claude", "skills/copy-masters/SKILL.md", "Текстове за страниците и рекламите, авторът в utm_content"),
         ("ads", "claude", "docs/stages.md#реклами", "Визии (anchor-creative-playbook), kie кредити през credits.py start/end"),
-        ("qa", "auto", f"python3 {A}/qa/run_qa.py {rj}", "Автоматична проверка: сравнение, текст, отзиви"),
+        ("qa", "claude", "docs/absolute-clone.md#7", f"За всеки клонинг: python3 {A}/qa/run_qa.py <оригинал> <клонинг> --client {cfg.get('client')} --out {run_dir}/qa/<фуния>"),
         ("review", "checkpoint", "templates/review/README.md", "КОНТРОЛНА ТОЧКА 2: преглед и одобрение (Shelly шаблоните)"),
         ("results", "auto", f"python3 {A}/results.py --account {cfg.get('ad_account', '?')} --since {{since}} --until {{until}} --match {p} --out {run_dir}/results.json", "След 7-14 дни: ROAS по фуния, концепция, автор"),
     ]
@@ -60,6 +60,15 @@ def main():
     ss = stages(cfg, run_dir)
     cmd = sys.argv[2] if len(sys.argv) > 2 else "status"
     if cmd == "done":
+        if sys.argv[3] == "qa" and "--force" not in sys.argv:
+            # прагът: до прегледа стига само клонинг с вердикт ГОТОВО или с ръчно записана причина ("accepted": "...") в qa.json
+            import glob
+            reps = glob.glob(os.path.join(run_dir, "qa", "*", "qa.json"))
+            bad = [r for r in reps if not (json.load(open(r)).get("ready") or json.load(open(r)).get("accepted"))]
+            if not reps or bad:
+                print("QA не минава:", "няма отчети" if not reps else ", ".join(os.path.basename(os.path.dirname(b)) for b in bad))
+                print('поправи и пусни отново, или запиши в qa.json "accepted": "<защо разликата е нарочна>"')
+                return
         st[sys.argv[3]] = "done"
         save_state(run_dir, st)
         print("отбелязано:", sys.argv[3])
