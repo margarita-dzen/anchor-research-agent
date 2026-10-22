@@ -1,0 +1,30 @@
+[
+ {
+  "ad_archive_id": "7",
+  "collation_id": "c7",
+  "collation_count": 1,
+  "page_id": "p7",
+  "page_name": "Herb Lady",
+  "is_active": true,
+  "start_date": 1790000000,
+  "end_date": null,
+  "reach_estimate": null,
+  "snapshot": {
+   "page_name": "Herb Lady",
+   "body": {
+    "text": "herbal ointment for spots and acne"
+   },
+   "title": "T",
+   "link_url": "https://herb.com/lp",
+   "display_format": "IMAGE",
+   "cards": [],
+   "videos": [],
+   "images": [
+    {
+     "resized_image_url": "https://cdn.example/7.jpg"
+    }
+   ],
+   "cta_text": "Shop now"
+  }
+ }
+]

@@ -1,0 +1,66 @@
+{
+ "meta": {
+  "cat": "atopi",
+  "country": "GB",
+  "q": "eczema balm",
+  "mode": "keyword"
+ },
+ "ads": [
+  {
+   "ad_archive_id": "5",
+   "collation_id": "c1",
+   "collation_count": 9,
+   "page_id": "p1",
+   "page_name": "Clear Co",
+   "is_active": false,
+   "start_date": 1780000000,
+   "end_date": 1790500000,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "Clear Co",
+    "body": {
+     "text": "Pickel weg"
+    },
+    "title": "T",
+    "link_url": "https://clear.de/pages/lp",
+    "display_format": "IMAGE",
+    "cards": [],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/5.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  },
+  {
+   "ad_archive_id": "6",
+   "collation_id": "c3",
+   "collation_count": 1,
+   "page_id": "p3",
+   "page_name": "Eczema Mom",
+   "is_active": true,
+   "start_date": 1785000000,
+   "end_date": null,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "Eczema Mom",
+    "body": {
+     "text": "eczema balm with calendula for my baby"
+    },
+    "title": "T",
+    "link_url": "https://balm.com/pages/a",
+    "display_format": "IMAGE",
+    "cards": [],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/6.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  }
+ ]
+}

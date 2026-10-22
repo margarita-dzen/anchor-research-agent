@@ -1,0 +1,131 @@
+{
+ "meta": {
+  "cat": "acne",
+  "country": "DE",
+  "q": "Akne Creme",
+  "mode": "keyword"
+ },
+ "ads": [
+  {
+   "ad_archive_id": "1",
+   "collation_id": "c1",
+   "collation_count": 4,
+   "page_id": "p1",
+   "page_name": "Clear Co ",
+   "is_active": true,
+   "start_date": 1790000000,
+   "end_date": null,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "Clear Co ",
+    "body": {
+     "text": "Pickel weg in 7 Tagen. Meine Tochter liebt es �"
+    },
+    "title": "T",
+    "link_url": "https://clear.de/pages/lp?utm_source=fb&fbclid=x",
+    "display_format": "IMAGE",
+    "cards": [],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/1.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  },
+  {
+   "ad_archive_id": "2",
+   "collation_id": "c2",
+   "collation_count": 1,
+   "page_id": "p2",
+   "page_name": "Temu",
+   "is_active": true,
+   "start_date": 1790000000,
+   "end_date": null,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "Temu",
+    "body": {
+     "text": "acne cheap"
+    },
+    "title": "T",
+    "link_url": "https://temu.com/x",
+    "display_format": "IMAGE",
+    "cards": [],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/2.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  },
+  {
+   "ad_archive_id": "3",
+   "collation_id": "c3",
+   "collation_count": 1,
+   "page_id": "p3",
+   "page_name": "Eczema Mom",
+   "is_active": true,
+   "start_date": 1790000000,
+   "end_date": null,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "Eczema Mom",
+    "body": {
+     "text": "eczema balm with calendula for my baby"
+    },
+    "title": "T",
+    "link_url": "https://balm.com/pages/a",
+    "display_format": "IMAGE",
+    "cards": [],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/3.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  },
+  {
+   "ad_archive_id": "4",
+   "collation_id": "c4",
+   "collation_count": 1,
+   "page_id": "p4",
+   "page_name": "DPA Shop",
+   "is_active": true,
+   "start_date": 1790000000,
+   "end_date": null,
+   "reach_estimate": null,
+   "snapshot": {
+    "page_name": "DPA Shop",
+    "body": {
+     "text": "{{product.brand}}"
+    },
+    "title": "T",
+    "link_url": "https://dpa.com/p",
+    "display_format": "DCO",
+    "cards": [
+     {
+      "body": "Akne Serum mit Teebaum",
+      "title": "Serum",
+      "link_url": "https://dpa.com/p/serum"
+     },
+     {
+      "body": "x"
+     }
+    ],
+    "videos": [],
+    "images": [
+     {
+      "resized_image_url": "https://cdn.example/4.jpg"
+     }
+    ],
+    "cta_text": "Shop now"
+   }
+  }
+ ]
+}

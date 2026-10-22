@@ -1,0 +1,483 @@
+{
+ "_doc": "So Simple мехлеми (ATOPI + ACNE + билкови), 20.10.2026: същите заявки, теми и правила като ~/so-simple-ointments-research/scripts. Ключовете са описани в agent/adlib/runconfig.py.",
+ "name": "so-simple-ointments",
+ "output_dir": ".",
+ "scrape_date": null,
+ "scrape": {
+  "scrolls": 7,
+  "parallel": 2,
+  "retries": 2,
+  "active": "active"
+ },
+ "categories": {
+  "atopi": "eczem|ekzem|eczéma|eccema|eczeem|eksem|atop|azs|neurodermit|dermatit|psoria|itch|сърб|kaszt|swędz|mâncărim|juck|démang|prurit|dry skin|trockene haut|piele uscat|суха кожа|flare|tallow|balm|salbe|baume|balsam|zalf|maść|unguent|мехлем|crema",
+  "acne": "acne|akne|acné|acnee|trądzik|акне|пъпк|pimple|spot|blemish|breakout|pickel|unreine|bouton|brufol|granos|puistje|cosuri|coșuri|zit|pores|черни точки|blackhead|hormonal",
+  "herbal": "herb|билк|kräuter|zioł|plante|erbe|hierb|naturist|plant|botanic|balm|salbe|мехлем|ointment|maść|unguent"
+ },
+ "flags": {
+  "mom": "\\bmum\\b|\\bmom\\b|mama|mother|mommy|mummy|майка|мама|maman|mamma|mamá|matka|mamą|mamei|mamă|mor\\b|moeder|daughter|son\\b|дъщер|син\\b|kid|child|baby|детe|дете|бебе|Kind\\b|Tochter|Sohn|enfant|bambin|dziec|copil",
+  "herbal": "herb|билк|kräuter|zioł|plante|erbe|hierb|botanic|calendula|невен|ringelblume|chamomile|лайка|kamille|tea tree|чаено дърво|st\\.? john|кантарион|plantain|comfrey|yarrow|lavender|propolis|beeswax|пчелен|manuka|tallow|shea"
+ },
+ "exclude": "temu|aliexpress|shein|amazon\\.|walmart",
+ "products": [
+  {
+   "product": "acne",
+   "cats": [
+    "acne"
+   ],
+   "require": [
+    "acne"
+   ]
+  },
+  {
+   "product": "atopi",
+   "cats": [
+    "atopi"
+   ],
+   "require": [
+    "atopi"
+   ]
+  },
+  {
+   "product": "acne",
+   "cats": [
+    "herbal"
+   ],
+   "require": [
+    "acne"
+   ],
+   "exclude": [
+    "atopi"
+   ]
+  },
+  {
+   "product": "atopi",
+   "cats": [
+    "herbal"
+   ],
+   "require": [
+    "atopi"
+   ]
+  },
+  {
+   "product": "herbal",
+   "cats": [
+    "herbal"
+   ]
+  },
+  {
+   "_doc": "реклами от пълно сваляне по страница (cats=page): по темата на текста",
+   "product": "acne",
+   "cats": [
+    "page"
+   ],
+   "require": [
+    "acne"
+   ],
+   "exclude": [
+    "atopi"
+   ]
+  },
+  {
+   "product": "atopi",
+   "cats": [
+    "page"
+   ],
+   "require": [
+    "atopi"
+   ]
+  }
+ ],
+ "unmatched": "drop",
+ "pages": {
+  "country": "ALL",
+  "scrolls": 10,
+  "top": 5,
+  "ids": [],
+  "products": [
+   "acne",
+   "atopi"
+  ]
+ },
+ "thumbs": {
+  "per_product": {
+   "atopi": 550,
+   "acne": 550,
+   "herbal": 47
+  },
+  "default": 200,
+  "max_size": [
+   300,
+   375
+  ]
+ },
+ "eu_reach": {
+  "top": 100,
+  "products": [
+   "acne",
+   "atopi"
+  ]
+ },
+ "queries": [
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "eczema balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "eczema balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "herbal eczema cream"
+  },
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "herbal balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "made by a mum eczema"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "mom eczema balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "my daughter eczema"
+  },
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "my son eczema"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "tallow balm eczema"
+  },
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "steroid free eczema"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "atopic dermatitis cream"
+  },
+  {
+   "cat": "atopi",
+   "country": "GB",
+   "q": "psoriasis balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "itchy skin balm"
+  },
+  {
+   "cat": "atopi",
+   "country": "US",
+   "q": "baby eczema cream"
+  },
+  {
+   "cat": "atopi",
+   "country": "DE",
+   "q": "Neurodermitis Salbe"
+  },
+  {
+   "cat": "atopi",
+   "country": "DE",
+   "q": "Neurodermitis Creme"
+  },
+  {
+   "cat": "atopi",
+   "country": "DE",
+   "q": "Neurodermitis Kinder"
+  },
+  {
+   "cat": "atopi",
+   "country": "DE",
+   "q": "Ekzem Balsam"
+  },
+  {
+   "cat": "atopi",
+   "country": "FR",
+   "q": "eczéma baume"
+  },
+  {
+   "cat": "atopi",
+   "country": "FR",
+   "q": "eczéma naturel"
+  },
+  {
+   "cat": "atopi",
+   "country": "IT",
+   "q": "eczema crema naturale"
+  },
+  {
+   "cat": "atopi",
+   "country": "ES",
+   "q": "eccema crema"
+  },
+  {
+   "cat": "atopi",
+   "country": "NL",
+   "q": "eczeem zalf"
+  },
+  {
+   "cat": "atopi",
+   "country": "PL",
+   "q": "AZS krem"
+  },
+  {
+   "cat": "atopi",
+   "country": "PL",
+   "q": "atopowe zapalenie skóry"
+  },
+  {
+   "cat": "atopi",
+   "country": "RO",
+   "q": "dermatita atopica"
+  },
+  {
+   "cat": "atopi",
+   "country": "RO",
+   "q": "eczeme crema"
+  },
+  {
+   "cat": "atopi",
+   "country": "BG",
+   "q": "атопичен дерматит"
+  },
+  {
+   "cat": "atopi",
+   "country": "BG",
+   "q": "екзема"
+  },
+  {
+   "cat": "atopi",
+   "country": "BG",
+   "q": "мехлем"
+  },
+  {
+   "cat": "atopi",
+   "country": "CZ",
+   "q": "atopický ekzém"
+  },
+  {
+   "cat": "atopi",
+   "country": "SE",
+   "q": "eksem salva"
+  },
+  {
+   "cat": "atopi",
+   "country": "DK",
+   "q": "eksem creme"
+  },
+  {
+   "cat": "atopi",
+   "country": "FI",
+   "q": "atopiaa"
+  },
+  {
+   "cat": "atopi",
+   "country": "RO",
+   "q": "eczeme copii"
+  },
+  {
+   "cat": "acne",
+   "country": "GB",
+   "q": "acne balm"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "acne balm"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "natural acne treatment"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "herbal acne"
+  },
+  {
+   "cat": "acne",
+   "country": "GB",
+   "q": "hormonal acne"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "hormonal acne"
+  },
+  {
+   "cat": "acne",
+   "country": "GB",
+   "q": "tea tree acne"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "acne spot treatment"
+  },
+  {
+   "cat": "acne",
+   "country": "GB",
+   "q": "made by a mum acne"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "my daughter acne"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "teen acne"
+  },
+  {
+   "cat": "acne",
+   "country": "US",
+   "q": "acne stick"
+  },
+  {
+   "cat": "acne",
+   "country": "DE",
+   "q": "Akne Creme"
+  },
+  {
+   "cat": "acne",
+   "country": "DE",
+   "q": "Pickel Salbe"
+  },
+  {
+   "cat": "acne",
+   "country": "DE",
+   "q": "unreine Haut natürlich"
+  },
+  {
+   "cat": "acne",
+   "country": "FR",
+   "q": "acné naturel"
+  },
+  {
+   "cat": "acne",
+   "country": "FR",
+   "q": "boutons acné"
+  },
+  {
+   "cat": "acne",
+   "country": "IT",
+   "q": "acne rimedio naturale"
+  },
+  {
+   "cat": "acne",
+   "country": "ES",
+   "q": "acné crema"
+  },
+  {
+   "cat": "acne",
+   "country": "PL",
+   "q": "trądzik"
+  },
+  {
+   "cat": "acne",
+   "country": "RO",
+   "q": "acnee"
+  },
+  {
+   "cat": "acne",
+   "country": "RO",
+   "q": "cosuri"
+  },
+  {
+   "cat": "acne",
+   "country": "BG",
+   "q": "акне"
+  },
+  {
+   "cat": "acne",
+   "country": "BG",
+   "q": "пъпки"
+  },
+  {
+   "cat": "acne",
+   "country": "CZ",
+   "q": "akné"
+  },
+  {
+   "cat": "acne",
+   "country": "SE",
+   "q": "akne salva"
+  },
+  {
+   "cat": "acne",
+   "country": "NL",
+   "q": "puistjes"
+  },
+  {
+   "cat": "herbal",
+   "country": "GB",
+   "q": "created by a mum skincare"
+  },
+  {
+   "cat": "herbal",
+   "country": "US",
+   "q": "founded by a mom skincare"
+  },
+  {
+   "cat": "herbal",
+   "country": "US",
+   "q": "herbal ointment"
+  },
+  {
+   "cat": "herbal",
+   "country": "US",
+   "q": "healing balm herbs"
+  },
+  {
+   "cat": "herbal",
+   "country": "DE",
+   "q": "Kräutersalbe"
+  },
+  {
+   "cat": "herbal",
+   "country": "PL",
+   "q": "maść ziołowa"
+  },
+  {
+   "cat": "herbal",
+   "country": "BG",
+   "q": "билков мехлем"
+  },
+  {
+   "cat": "herbal",
+   "country": "RO",
+   "q": "unguent naturist"
+  },
+  {
+   "cat": "herbal",
+   "country": "FR",
+   "q": "baume aux plantes"
+  },
+  {
+   "cat": "herbal",
+   "country": "IT",
+   "q": "balsamo erbe"
+  }
+ ]
+}

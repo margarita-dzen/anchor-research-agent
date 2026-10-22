@@ -6,9 +6,9 @@
 ## Процес
 | # | Етап | Състояние |
 |---|---|---|
-| 1 | Ключови думи по продукт × пазар (`queries.tsv`) | ръчно, предстои генериране от `run.json` |
-| 2 | Сваляне на рекламите от Meta Ad Library (headless) | `so-simple-ointments-research/scripts/adlib.py`, `harvest.py`, предстои пренасяне |
-| 3 | Обединяване по collation_id, визии | `consolidate.py`, `thumbs.py`, предстои пренасяне |
+| 1 | Ключови думи по продукт × пазар, теми, белези, правила за продукт | **готово: `runs/<име>/run.json` (пример: `runs/example/run.json` = So Simple), `agent/adlib/runconfig.py`**; самите думи още се пишат ръчно |
+| 2 | Сваляне на рекламите от Meta Ad Library (headless) | **готово: `agent/adlib/harvest.py` + `scrape.py` (заявки или `--top-pages`/`--pages` = всички реклами на рекламодателя), `eu_reach.py` (EU обхват за топ кандидатите), `docs/adlib.md`** |
+| 3 | Обединяване по collation_id, визии, крайни URL-и, снимки във времето | **готово: `agent/adlib/consolidate.py`, `thumbs.py`, `resolve_urls.py` (→ `evidence.py --resolved`), `snapshot_diff.py`** |
 | 4 | **Сила на доказателствата по лендинг** | **готово: `agent/evidence.py`, `docs/evidence-scale.md`** |
 | 5 | Ъгли и хукове (подагент, фиксирана схема) | предстои |
 | 6 | Гласът на клиента (отзиви) | **готово: `agent/collect_reviews.py` (Judge.me, всички продукти + снимки) → `agent/review_bank.py` (+ Drive CSV/xlsx, без имейли/IP)** |
@@ -18,6 +18,8 @@
 
 ## Бързо
 ```bash
+python3 agent/adlib/harvest.py runs/example/run.json --limit 1 --scrolls 2   # проба; целият поток: docs/adlib.md
+python3 agent/adlib/consolidate.py runs/example/run.json
 python3 agent/evidence.py <ads_all.json> --product acne --traffic traffic.json --out landing_evidence.json
 python3 -m unittest discover -s tests
 ```

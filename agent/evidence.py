@@ -4,7 +4,7 @@
 Изход: JSON с минали/отпаднали URL-и, оценка 0-100 и разбивка по сигнали.
 
     python3 agent/evidence.py ads_all.json --product acne --product herbal \
-        --traffic traffic.json --out landing_evidence_acne.json
+        --traffic traffic.json [--resolved resolved.json] --out landing_evidence_acne.json
 
 Нива:
   1. Задължителни условия (gate): истински лендинг, не соц. мрежа/маркетплейс/аптечна марка/начална страница,
@@ -92,15 +92,18 @@ def evidence_score(signals):
     return round(sum(breakdown.values()), 1), breakdown
 
 
-def aggregate(ads, today, products=None, traffic=None, blocklist=None):
+def aggregate(ads, today, products=None, traffic=None, blocklist=None, resolved=None):
+    """resolved: {landing_url: краен URL} от agent/adlib/resolve_urls.py (по желание)."""
     blocklist = blocklist if blocklist is not None else load_blocklist()
     traffic = traffic or {}
+    resolved = resolved or {}
     groups = collections.defaultdict(lambda: dict(ads=0, active_ads=0, duplicates=0, new_ads_30d=0, max_days=0,
                                                   countries=set(), brands=set(), ad_ids=[], host=""))
     for a in ads:
         if products and a.get("product") not in products:
             continue
-        url, host = norm_url(a.get("landing_url_clean") or a.get("landing_url"))
+        url, host = norm_url(resolved.get(a.get("landing_url")) or resolved.get(a.get("landing_url_clean"))
+                             or a.get("landing_url_clean") or a.get("landing_url"))
         g = groups[url]
         g["host"] = host
         g["ads"] += 1
@@ -154,13 +157,15 @@ def main():
     ap.add_argument("--traffic", help="JSON с трафик по домейн (TrendTrack lookup)")
     ap.add_argument("--today", help="дата на свалянето YYYY-MM-DD (по подразбиране: най-новият first_seen)")
     ap.add_argument("--blocklist")
+    ap.add_argument("--resolved", help="resolved.json от agent/adlib/resolve_urls.py: крайни URL-и без проследяване")
     ap.add_argument("--out")
     ap.add_argument("--top", type=int, default=25)
     a = ap.parse_args()
     ads = json.load(open(a.ads))
     today = datetime.date.fromisoformat(a.today) if a.today else max(
         datetime.date.fromisoformat(x["first_seen"]) for x in ads if x.get("first_seen"))
-    passed, rejected = aggregate(ads, today, set(a.product or []) or None, load_traffic(a.traffic), load_blocklist(a.blocklist))
+    passed, rejected = aggregate(ads, today, set(a.product or []) or None, load_traffic(a.traffic), load_blocklist(a.blocklist),
+                                 json.load(open(a.resolved)) if a.resolved else None)
     if a.out:
         json.dump(dict(scale="evidence-v1", today=str(today), weights={k: v[0] for k, v in SIGNALS.items()}, gate=GATE,
                        passed=passed, rejected=rejected), open(a.out, "w"), ensure_ascii=False, indent=1)

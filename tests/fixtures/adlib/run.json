@@ -1,0 +1,15 @@
+{
+ "_doc": "Тестова конфигурация: малки теми и правила като в runs/example/run.json.",
+ "output_dir": "out",
+ "scrape_date": "2026-10-20",
+ "categories": {"acne": "akne|acne|pickel|spots", "atopi": "eczem|itch|balm", "herbal": "herb|ointment"},
+ "flags": {"mom": "\\bmom\\b|baby|tochter", "herbal": "herb|calendula|teebaum"},
+ "exclude": "temu|amazon\\.",
+ "products": [
+  {"product": "acne", "cats": ["acne"], "require": ["acne"]},
+  {"product": "atopi", "cats": ["atopi"], "require": ["atopi"]},
+  {"product": "acne", "cats": ["herbal"], "require": ["acne"], "exclude": ["atopi"]},
+  {"product": "herbal", "cats": ["herbal"]}
+ ],
+ "queries": [{"cat": "acne", "country": "DE", "q": "Akne Creme"}, {"cat": "atopi", "country": "GB", "q": "eczema balm"}]
+}
