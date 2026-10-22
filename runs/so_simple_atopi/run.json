@@ -1,0 +1,37 @@
+{
+  "client": "so_simple",
+  "product": "atopi",
+  "title": "ATOPI GONE, мехлем при атопичен дерматит (стик 50 ml)",
+  "markets": [
+    "BG",
+    "RO"
+  ],
+  "data_dir": "~/so-simple-ointments-research",
+  "ads": "~/so-simple-ointments-research/ads/ads_all.json",
+  "evidence_products": [
+    "atopi",
+    "herbal"
+  ],
+  "fit": {
+    "topic": "eczem|ekzem|eczéma|eccema|eczeem|eksem|atop|neurodermit|dermatit|psoria|itch|сърб|swędz|mâncărim|juck|démang|prurit|dry skin|trockene haut|piele uscat|суха кожа|flare",
+    "form": "balm|salbe|baume|balsam|ointment|stick|maść|unguent|мехлем|стик|tallow|beeswax",
+    "audience": "baby|babies|toddler|child|kid|mum|mom|mother|бебе|дете|майк|мама|kind|baby|copil|enfant",
+    "angles": {
+      "нощи и сърбеж": "night|sleep|scratch|нощ|сън|чеш",
+      "натурално вместо стероид": "steroid|cortiso|natural|кортико|натурал",
+      "невен и билки": "calendula|herb|plant|невен|билк|manuka|tallow",
+      "бебешка кожа": "baby|newborn|бебе|toddler",
+      "създадено от майка": "(made|created|founded) by a (mum|mom|mother)|майка създаде|my (son|daughter)'s"
+    },
+    "bank_products": [
+      "mehlem-pri-atopichen-dermatit-atopi-gone",
+      "promo-komplekt-atopi-gone",
+      "atopi-gone-oil",
+      "sos-mehlem-s-neven"
+    ],
+    "exclude": "\\bdogs?\\b|puppy|\\bpets?\\b|\\bcats?\\b|hund|câine|куче|hair growth|shampoo|vitamin[ae]? ?c|collagen|weight loss|pregnan"
+  },
+  "ad_account": "act_2897573163607813",
+  "client_dir": "So-Simple",
+  "reviews_build": "python3 ~/anchor-research-agent/agent/collect_reviews.py --site https://sosimplecosmetics.eu --shop so-simple-cosmetics.myshopify.com --out ~/Clients/So-Simple/reviews && python3 ~/anchor-research-agent/agent/review_bank.py ~/Clients/So-Simple/reviews"
+}

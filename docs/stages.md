@@ -1,0 +1,23 @@
+# Етапите, които прави Claude
+
+`agent/run.py` пуска автоматичните етапи и спира тук. След всеки етап: `python3 agent/run.py runs/<x>/run.json done <етап>`.
+
+## ъгли
+Вход: `ads_all.json` (само relevant URL-и от `landing_ranked_<p>.json`) + банката с отзиви.
+1. Топ 30 реклами по сила: групирай по ъгъл (защо да купя), хук (първият ред), формат, аудитория.
+2. Гласът на клиента от банката: желания, болки, възражения, дословни фрази (с име).
+3. За всеки ъгъл: ниво на осъзнатост и етап на изтънченост (copy-masters/schwartz), колко силни реклами го носят, дали банката го доказва.
+Изход: `analysis.json` {angles:[{name, why, evidence_ads, awareness, sophistication, proof_in_bank}], hooks:[...]}.
+
+## фунии
+Подагент по брифа (образец: `~/so-simple-ointments-research/FUNNEL_AGENT_BRIEF.md`), но с вход `landing_ranked_<p>.json`:
+- топ 10-14 relevant URL-и по крайна оценка, без маркетплейси;
+- снимки с `agent/qa/capture.py` (390 + 1440, вътрешен скрол се зашива), текст, контур на секциите;
+- секции, оферта, техники, ъгъл, какво да не копираме; режим на дизайна от `agent/clone_mode.py`.
+Изход: `funnels/funnels_<p>.json` (схемата от брифа). После автоматично `fit`.
+
+## избор
+Артефакт по шаблона `~/so-simple-ointments-research/acne_pick/` (template.html + data.json): ъгли, хукове, фунии с Да / Може би / Не + бележка. Фуниите показват **силата и пасването поотделно** + крайната оценка. Изборите са в db колекция `picks`, четат се с ArtifactData list.
+
+## реклами
+anchor-creative-playbook + copy-masters. Преди генерации: `python3 agent/credits.py start runs/<x> ads`, след тях `end`. Всяка реклама: `utm_campaign=<продукт>_<тип>_<месец><год>`, `utm_content=<код>-<автор>`.

@@ -1,0 +1,37 @@
+{
+  "client": "so_simple",
+  "product": "acne",
+  "title": "ACNE GONE, мехлем при акне (стик 50 ml)",
+  "markets": [
+    "BG",
+    "RO"
+  ],
+  "data_dir": "~/so-simple-ointments-research",
+  "ads": "~/so-simple-ointments-research/ads/ads_all.json",
+  "evidence_products": [
+    "acne",
+    "herbal"
+  ],
+  "fit": {
+    "topic": "acne|akne|acné|acnee|trądzik|акне|пъпк|pimple|spot|blemish|breakout|pickel|unreine|bouton|brufol|granos|puistje|cosuri|coșuri|zit|blackhead|hormonal",
+    "form": "balm|salbe|baume|balsam|ointment|stick|maść|unguent|мехлем|стик|tallow|beeswax",
+    "audience": "mum|mom|mother|daughter|son|teen|parent|майк|мама|дъщер|син|тийнейджър|mama|tochter|eltern|40|hormon",
+    "angles": {
+      "механизъм": "why .{0,30}(come back|keeps)|pores|barrier|bacteria|mechanism|защо се връща|пори",
+      "растителна сила": "herb|plant|botanic|tea tree|calendula|st\\.? john|билк|невен|кантарион",
+      "зряла възраст и хормони": "adult acne|hormonal|40|perimenopaus|pms|cycle|хормон",
+      "срещу аптечната козметика": "harsh|chemical|benzoyl|salicylic|dermatologist|pharmacy|аптек|агресив",
+      "какво струва на детето": "confidence|bull|ashamed|cry|tears|self.?esteem|увереност|сълзи",
+      "майка за тийнейджър": "my (son|daughter)|teen|teenager|тийнейджър|дъщеря ми|синът ми"
+    },
+    "bank_products": [
+      "acne-gone-mehlem-pri-akne",
+      "promo-komplekt-acne-gone",
+      "chaj-acne-gone"
+    ],
+    "exclude": "\\bdogs?\\b|puppy|\\bpets?\\b|\\bcats?\\b|hund|câine|куче|hair growth|shampoo|weight loss"
+  },
+  "ad_account": "act_2897573163607813",
+  "client_dir": "So-Simple",
+  "reviews_build": "python3 ~/anchor-research-agent/agent/collect_reviews.py --site https://sosimplecosmetics.eu --shop so-simple-cosmetics.myshopify.com --out ~/Clients/So-Simple/reviews && python3 ~/anchor-research-agent/agent/review_bank.py ~/Clients/So-Simple/reviews"
+}
