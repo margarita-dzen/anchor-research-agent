@@ -1,25 +1,37 @@
 # Anchor Research Agent
 
-Рисърч на ъгли, фунии и реклами за бранд по продукт и ниша, по един и същ процес за всеки клиент.
-Изграден от автоматизациите за halo. (`~/halo-patches/research`) и So Simple мехлемите (`~/so-simple-ointments-research`).
+Рисърч на ъгли, фунии и реклами за бранд по продукт и ниша, клониране на избраните фунии и реклами към тях, по един и същ процес за всеки клиент.
+Изграден от автоматизациите за halo. (`~/halo-patches/research`) и So Simple мехлемите (`~/so-simple-ointments-research`). Скилът е `SKILL.md`. Текстовете минават през отделния скил `skills/copy-masters`.
 
-## Процес
-| # | Етап | Състояние |
-|---|---|---|
-| 1 | Ключови думи по продукт × пазар, теми, белези, правила за продукт | **готово: `runs/<име>/run.json` (пример: `runs/example/run.json` = So Simple), `agent/adlib/runconfig.py`**; самите думи още се пишат ръчно |
-| 2 | Сваляне на рекламите от Meta Ad Library (headless) | **готово: `agent/adlib/harvest.py` + `scrape.py` (заявки или `--top-pages`/`--pages` = всички реклами на рекламодателя), `eu_reach.py` (EU обхват за топ кандидатите), `docs/adlib.md`** |
-| 3 | Обединяване по collation_id, визии, крайни URL-и, снимки във времето | **готово: `agent/adlib/consolidate.py`, `thumbs.py`, `resolve_urls.py` (→ `evidence.py --resolved`), `snapshot_diff.py`** |
-| 4 | **Сила на доказателствата по лендинг** | **готово: `agent/evidence.py`, `docs/evidence-scale.md`** |
-| 5 | Ъгли и хукове (подагент, фиксирана схема) | предстои |
-| 6 | Гласът на клиента (отзиви) | **готово: `agent/collect_reviews.py` (Judge.me, всички продукти + снимки) → `agent/review_bank.py` (+ Drive CSV/xlsx, без имейли/IP)** |
-| 7 | Разбор на фуниите + оценка за пасване | `FUNNEL_AGENT_BRIEF.md`, `funnel_capture.py`, предстои |
-| 8 | Артефакт за избор (Да / Може би / Не) | шаблон в `so-simple-ointments-research/acne_pick/`, предстои |
-| 9 | Клон → реклами → хъб → Drive | режим „абсолютно клониране“: `docs/absolute-clone.md`, `agent/clone_mode.py` (бранд или дизайнът на примера), източници `agent/config/clients.json` |
-
-## Бързо
+## Пускане
 ```bash
-python3 agent/adlib/harvest.py runs/example/run.json --limit 1 --scrolls 2   # проба; целият поток: docs/adlib.md
-python3 agent/adlib/consolidate.py runs/example/run.json
-python3 agent/evidence.py <ads_all.json> --product acne --traffic traffic.json --out landing_evidence.json
-python3 -m unittest discover -s tests
+python3 agent/run.py runs/<име>/run.json            # етапите и състоянието
+python3 agent/run.py runs/<име>/run.json next       # следващият етап (автоматичен или инструкция за Claude)
+python3 agent/run.py runs/<име>/run.json done <етап>
 ```
+`run.json` на продукта (пример: `runs/so_simple_acne/run.json`) + конфигурация за свалянето (`harvest_config`, пример: `runs/example/run.json`).
+
+## Етапи
+| # | Етап | Как | Код / документ |
+|---|---|---|---|
+| 1 | Сваляне на рекламите | авто | `agent/adlib/harvest.py` (заявки + `--top-pages`), `docs/adlib.md` |
+| 2 | Обединяване, визии, EU обхват, крайни URL-и | авто | `agent/adlib/consolidate.py`, `thumbs.py`, `eu_reach.py`, `resolve_urls.py` |
+| 3 | Сила на доказателствата | авто | `agent/evidence.py`, `docs/evidence-scale.md` |
+| 4 | Чистене от теми извън продукта | авто | `agent/fit.py relevance` |
+| 5 | Банка с истински отзиви | авто | `agent/collect_reviews.py` (Judge.me / WooCommerce), `agent/review_bank.py` |
+| 6 | Ъгли и хукове | Claude | `docs/stages.md#ъгли`, creative-strategy, copy-masters/schwartz |
+| 7 | Разбор на фуниите | Claude | `docs/stages.md#фунии`, `agent/qa/capture.py`, `agent/clone_mode.py` |
+| 8 | Пасване + крайна оценка (60/40) + местни конкуренти | авто | `agent/fit.py funnels` |
+| 9 | **Контролна точка 1:** избор | Валентин | артефакт Да / Може би / Не (`docs/stages.md#избор`) |
+| 10 | Клониране | Claude | `docs/absolute-clone.md`, `docs/design-skills.md`, `docs/rules.md` |
+| 11 | Текстове | Claude | `skills/copy-masters` (авторът в `utm_content`) |
+| 12 | Реклами | Claude | anchor-creative-playbook, `agent/credits.py start/end` |
+| 13 | QA с праг | авто + Claude | `agent/qa/run_qa.py`; `done qa` не минава под прага без записана причина |
+| 14 | **Контролна точка 2:** преглед | Валентин | `templates/review/README.md` (Shelly шаблоните) |
+| 15 | Резултати и учене | авто, седмично | `agent/weekly.py` → `results.py`, `snapshot_diff.py`, `calibrate.py`, `feedback.py` |
+
+## Качество
+- Еталон: `python3 agent/golden.py goldens/*.json` след всяка промяна в оценките.
+- Тестове: `python3 -m unittest discover -s tests`.
+- Научени проверки от прегледите: `docs/learned-checks.md` (`agent/feedback.py`).
+- Кредити: `python3 agent/credits.py balance | need <N> | report runs/<име>`.
