@@ -17,6 +17,10 @@
 - Един преглед на страница (review page), не много файлове. (feedback_single_review_page)
 - Изборът на фунии винаги минава през скалата за сила на доказателствата + пасване. (docs/evidence-scale.md)
 
+## Страници за преглед
+- Новите страници се правят **непубликувани** до одобрение. Непубликувана страница дава 404 дори в preview темата, затова прегледът е на `https://<магазин>/pages/test?view=<template suffix>&preview_theme_id=<preview>`: шаблонът се показва върху вече публикуваната скрита страница, без промяна на живо. (BRIEF.md файловете, които казват isPublished=true, са по-стари.)
+- Dawn скрива празните `div` (`div:empty{display:none}`). Кръгчетата и декорациите без съдържание трябва да имат `&nbsp;` или размер през `::before`.
+
 ## So Simple (Carina Precious)
 - Офертите и гаранциите само след ОК от Елица. (feedback_so_simple_offers_confirm_elitsa)
 - „Подбрани съставки“, не „100% натурални“ / „без химия“. (project_so_simple_greenwashing_2026_10)
@@ -25,6 +29,10 @@
 - Комплектите са истински bundles. (feedback_shopify_packs_as_bundles)
 - Козметика, не лекарство: без „лекува“, „спира възпалението“, „антисептично“, Accutane, %-успеваемост. „Кортикостероиди“ се споменават като контекст, не като обещание. (project_so_simple_ointments_research_2026_10)
 - MAIN тема 202643046747 се пипа само след одобрение. Preview 203331305819.
+- **RO пазар: всичко на румънски** (alt, мета, имейли, доставка, теми, метаполета, отзиви), без лева. Пикселите се зареждат винаги. RO версия на рекламите само ако фунията я има на sosimple.ro. (feedback_ro_market_all_romanian)
+- Отзивите идват от банката `~/Clients/So-Simple/reviews/bank.json` (Shopify/Judge.me от 18.09). Старият WooCommerce адрес в anchor-ad-copy-formulas не важи.
+- Отзив за друг продукт (напр. Pamela Petkova е към чая ACNE GONE, но говори и за стика) се ползва само с бележка за двата продукта („чай и стик“). В реклама за един продукт не се ползва.
+- Описанията на продуктите още съдържат „100% натурални“ (чакат Ели). Не се копират в нови текстове.
 
 ## Nordics
 - Образците от INA се ползват без разпознаваеми копия: само механиката, не фона, сцената, шрифта. (feedback_nordics_no_recognizable_ina_copies)
@@ -47,4 +55,6 @@
 
 ## Генерации и кредити
 - Преди батч: `python3 agent/credits.py need <N>`. Батчът наведнъж, не по 3. Отказаните „unsafe“ се таксуват → `--tries 1` и мек промпт. (feedback_parallel_generation, project_so_simple_ointments_research_2026_10)
-- Ключът на Маргарита (Павлова/Vitalaiz) за So Simple само с отчет преди/след. (reference_kie_key_pavlova_vitalaiz)
+- **Ключовете:** генерациите за всички клиенти вървят през основния ключ `KIE_AI_API_KEY`. Ключът `KIE_AI_API_KEY_PAVLOVA_VITALAIZ` (в паметта „ключът на Маргарита“) е за Павлова/УНИКАЛ и Vitalaiz. За друг клиент се ползва само при изрично разрешение за конкретната задача, с отчет преди/след. (reference_kie_key_pavlova_vitalaiz)
+- Генерации само през kie runner-а (headless). Инструкцията в `~/ads-automation/SKILL.md` за Higgsfield в Chrome Canary (порт 9222) НЕ важи за агента. (feedback_never_open_chrome_windows)
+- Style Lab 30%: смята се за целия батч (закръгляне нагоре), минимум 1 на фуния.

@@ -31,8 +31,27 @@ def slug(url):
     return re.sub(r"[^\w.-]+", "_", s)[-60:] or "page"
 
 
+# секции, които правилата задължават да махнем (гаранция, проучване, измислен лекар, знаменитости, таймер, абонамент):
+# липсата им не е грешка на клонинга. Ако всичко липсващо е от тях, прагът пада до FLOOR.
+ALLOWED_MISSING = re.compile(r"geld.?zur|money.?back|guarantee|garan|гаранц|risk.?free|clinical|klinisch|study|studie|проучване|"
+                             r"\bdr\.|doctor|arzt|dermatolog|лекар|celebrit|famous|знаменит|timer|countdown|таймер|subscri|abonn|абонам|"
+                             r"impressum|imprint|sichere transaktion|secure checkout|hergestellt|made in", re.I)
+FLOOR = 70
+
+
+def allowed_missing(cres):
+    """Връща (всички липсващи са позволени?, списък липсващи с текст) по най-тясната ширина."""
+    w = cres["widths"][sorted(cres["widths"], key=lambda k: int(k))[0]]
+    secs = w.get("sections_original") or []
+    miss = [secs[i] for i in w.get("missing", []) if i < len(secs)]
+    rows = [((m.get("heading") or "") + " " + (m.get("text") or ""))[:120] for m in miss]
+    ok = all(ALLOWED_MISSING.search(r) or not r.strip() for r in rows)
+    return ok, rows
+
+
 def md_report(original, clone, args, cres, lres, rres):
-    ok_cmp = cres["score"] >= args.threshold
+    all_allowed, missing_rows = allowed_missing(cres)
+    ok_cmp = cres["score"] >= args.threshold or (all_allowed and cres["score"] >= FLOOR)
     ok_lint = lres["errors"] == 0
     ok_rev = rres is None or rres["bad"] == 0
     ready = ok_cmp and ok_lint and ok_rev
@@ -43,13 +62,16 @@ def md_report(original, clone, args, cres, lres, rres):
     L.append("")
     L.append("| Проверка | Резултат | Минава |")
     L.append("|---|---|---|")
-    L.append(f"| Сходство с оригинала | {cres['score']}/100 (праг {args.threshold}) | {'да' if ok_cmp else 'НЕ'} |")
+    L.append(f"| Сходство с оригинала | {cres['score']}/100 (праг {args.threshold}; {FLOOR}, ако липсва само забраненото от правилата) | {'да' if ok_cmp else 'НЕ'} |")
     L.append(f"| Копи и техника | {lres['errors']} грешки, {lres['warnings']} за проверка | {'да' if ok_lint else 'НЕ'} |")
     if rres is None:
         L.append("| Отзиви | не е проверено (няма банка) | ? |")
     else:
         L.append(f"| Отзиви | {len(rres['reviews'])} на страницата, {rres['bad']} извън банката, {rres['manual']} за ръчна проверка | {'да' if ok_rev else 'НЕ'} |")
     L.append("")
+    if missing_rows:
+        L.append("Липсващи секции: " + "; ".join(("[позволено] " if ALLOWED_MISSING.search(r) else "[ГРЕШКА] ") + r.strip()[:70] for r in missing_rows))
+        L.append("")
     L.append("## 1. Сходство с оригинала (секция по секция)")
     L.append("")
     L.append("```")

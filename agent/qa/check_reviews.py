@@ -236,6 +236,11 @@ def extract(target):
     return cards
 
 
+# не са отзиви: медийни цитати, слоганът на марката, съобщения на количката (тест 22.10: даваха фалшиви „НЕ Е В БАНКАТА“)
+NOT_REVIEW = re.compile(r"forbes|grazia|vogue|elle\b|cosmopolitan|създаден от майка|creat de o mamă|до безплатна доставка|"
+                        r"până la livrare|free shipping|остават ви|mai aveți", re.I)
+
+
 def check(target, bank_path, product=None):
     bank = json.load(open(os.path.expanduser(bank_path)))
     cards = extract(target)
@@ -249,8 +254,8 @@ def check(target, bank_path, product=None):
             name, body, names = parse_card(c["text"], c.get("name_hint", ""), c.get("body_hint", ""))
             items.append((c, name, body, names))
     for c, name, body, names in items:
-        if len(body) < 25:
-            continue  # не е отзив (байлайн със звезди, рейтинг без текст)
+        if len(body) < 25 or NOT_REVIEW.search(body + " " + (name or "")):
+            continue  # не е отзив (байлайн, рейтинг без текст, медиен цитат, слоган, съобщение на количката)
         status, r, ts, ns = match_review(names, body, bank, product)
         rows.append(dict(y=c["y"], name=name, body=body[:400], status=status, text_score=ts, name_score=ns,
                          bank_name=(r or {}).get("name"), bank_product=(r or {}).get("product"),

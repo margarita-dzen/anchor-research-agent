@@ -43,6 +43,8 @@ def lint_text(text, rules, lang=None, where="текст"):
     """Връща списък находки {rule, level, why, match, context, where}."""
     out, taken = [], []
     for r in rules:
+        if r.get("lang") and r["lang"] != lang:  # правила само за един пазар (напр. лева на RO)
+            continue
         for m in re.finditer(r["pattern"], text, flags=re.I):
             a, b = m.span()
             if any(a < tb and b > ta and tr == r.get("group", r["id"]) for ta, tb, tr in taken):

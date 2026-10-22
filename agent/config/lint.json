@@ -1,178 +1,185 @@
 {
-  "_doc": "Забранени думи и изрази в текста на страниците по клиент (lint_copy.py). pattern е regex без значение от главни/малки букви. level: error = спира „готово“, warn = провери на ръка. Проверяват се видимият текст, alt и title на снимките.",
-  "common": [
-    {
-      "id": "em_dash",
-      "pattern": "—",
-      "level": "error",
-      "why": "без тирета (em dash) никъде"
-    },
-    {
-      "id": "en_dash_as_dash",
-      "pattern": "\\s–\\s",
-      "level": "error",
-      "why": "en dash с интервали = тире в изречение"
-    },
-    {
-      "id": "hyphen_as_dash",
-      "pattern": "(?<=[^\\W\\d_])\\s-\\s(?=[^\\W\\d_])",
-      "level": "warn",
-      "why": "дефис с интервали, вероятно тире в изречение"
-    },
-    {
-      "id": "illustrative",
-      "pattern": "илюстратив|ilustrativ|illustrativ|illustrative",
-      "level": "error",
-      "why": "никога „илюстративна снимка“ (нито надпис, нито alt)"
-    },
-    {
-      "id": "illustration",
-      "pattern": "\\bИлюстрация\\b|\\bIlustrație\\b|\\bIlustratie\\b",
-      "level": "error",
-      "why": "никога „Илюстрация“"
-    },
-    {
-      "id": "ad_label",
-      "pattern": "Рекламна публикация|\\bPublicitate\\b|Reklame|Anzeige\\b|Advertorial",
-      "level": "error",
-      "why": "етикетите „Рекламна публикация“ се махат винаги"
-    }
-  ],
-  "so_simple": {
-    "_doc": "So Simple (Carina Precious): козметика, без медицински твърдения; без „100% натурални“ (greenwashing 14.10); гаранции и оферти само с ОК от Елица.",
-    "rules": [
-      {
-        "id": "cure",
-        "pattern": "излекува|лекува|лечение с|излекуван|vindecă|vindeca|tratează|trateaza",
-        "level": "error",
-        "why": "козметика: без „лекува/излекува“"
-      },
-      {
-        "id": "natural_100",
-        "pattern": "100\\s?%\\s?натурал|100\\s?%\\s?natural",
-        "level": "error",
-        "why": "без „100% натурални“, казваме „подбрани съставки“"
-      },
-      {
-        "id": "no_chemistry",
-        "pattern": "без химия|fără chimicale|fara chimicale|fără chimie",
-        "level": "error",
-        "why": "без „без химия“"
-      },
-      {
-        "id": "guarantee",
-        "pattern": "гаранц|garanți|garanti",
-        "level": "error",
-        "why": "гаранции само с ОК от Елица"
-      },
-      {
-        "id": "money_back",
-        "pattern": "парите обратно|връщаме парите|banii înapoi|banii inapoi",
-        "level": "error",
-        "why": "без „парите обратно“ (чака Елица)"
-      },
-      {
-        "id": "forever",
-        "pattern": "изчезна завинаги|завинаги изчез|dispare definitiv|pentru totdeauna",
-        "level": "error",
-        "why": "без обещания „изчезва завинаги“"
-      },
-      {
-        "id": "drugs",
-        "pattern": "изотретиноин|accutane|roaccutane|кортикостероид|corticosteroiz",
-        "level": "warn",
-        "why": "лекарства/стероиди само като контекст, никога като обещание"
-      },
-      {
-        "id": "success_rate",
-        "pattern": "\\d{2}\\s?%\\s?(успеваемост|успех|ефективност|eficien|succes)",
-        "level": "warn",
-        "why": "без %-успеваемост"
-      },
-      {
-        "id": "antiseptic",
-        "pattern": "антисептич|antiseptic",
-        "level": "warn",
-        "why": "медицинско твърдение"
-      },
-      {
-        "id": "dermatologist",
-        "pattern": "дерматолог|dermatolog",
-        "level": "warn",
-        "why": "без измислени лекари/дерматолози; провери дали е истински експерт"
-      }
-    ]
+ "_doc": "Забранени думи и изрази в текста на страниците по клиент (lint_copy.py). pattern е regex без значение от главни/малки букви. level: error = спира „готово“, warn = провери на ръка. Проверяват се видимият текст, alt и title на снимките.",
+ "common": [
+  {
+   "id": "em_dash",
+   "pattern": "—",
+   "level": "error",
+   "why": "без тирета (em dash) никъде"
   },
-  "nordics": {
-    "_doc": "Nordics: просто и вярно. Без медицински и избелващи твърдения от типа „избелва с пероксид“.",
-    "rules": [
-      {
-        "id": "cure",
-        "pattern": "излекува|лекува|vindecă|vindeca|cure[sd]?\\b",
-        "level": "error",
-        "why": "без „лекува/излекува“"
-      },
-      {
-        "id": "peroxide_whitening",
-        "pattern": "пероксид|peroxid|избелва\\w*\\s+с\\s+\\w+|бели зъби за \\d+",
-        "level": "error",
-        "why": "без „избелва с пероксид“ и подобни твърдения"
-      },
-      {
-        "id": "shades_whiter",
-        "pattern": "\\d+\\s*(нюанса|тона)\\s*(по-)?бел|\\d+\\s*nuanțe",
-        "level": "error",
-        "why": "без обещания „N нюанса по-бели“"
-      },
-      {
-        "id": "natural_100",
-        "pattern": "100\\s?%\\s?натурал|100\\s?%\\s?natural",
-        "level": "error",
-        "why": "без „100% натурални“"
-      },
-      {
-        "id": "no_chemistry",
-        "pattern": "без химия|fără chimicale",
-        "level": "error",
-        "why": "без „без химия“"
-      },
-      {
-        "id": "guarantee",
-        "pattern": "гаранц|garanți",
-        "level": "warn",
-        "why": "гаранция само ако е истинската от сайта"
-      },
-      {
-        "id": "money_back",
-        "pattern": "парите обратно|banii înapoi",
-        "level": "warn",
-        "why": "само ако е истинската оферта"
-      },
-      {
-        "id": "dentist",
-        "pattern": "зъболекар|стоматолог|dentist",
-        "level": "warn",
-        "why": "експерт само истински (д-р Юнуз)"
-      }
-    ]
+  {
+   "id": "en_dash_as_dash",
+   "pattern": "(?<!Lavanda Dream)\\s–\\s",
+   "level": "error",
+   "why": "en dash с интервали = тире в изречение (изключение: името „Lavanda Dream – …“, решение на Валентин 22.10)"
   },
-  "console_ignore": {
-    "_doc": "JS грешки от инфраструктурата на Shopify/пиксели: отиват като warn, не като грешка на страницата.",
-    "patterns": [
-      "sf_private_access_tokens",
-      "monorail",
-      "shop\\.app",
-      "track\\.",
-      "pixel",
-      "facebook",
-      "tiktok",
-      "klaviyo",
-      "clarity",
-      "googletagmanager",
-      "google-analytics",
-      "doubleclick",
-      "hotjar",
-      "judge\\.me"
-    ]
+  {
+   "id": "hyphen_as_dash",
+   "pattern": "(?<=[^\\W\\d_])\\s-\\s(?=[^\\W\\d_])",
+   "level": "warn",
+   "why": "дефис с интервали, вероятно тире в изречение"
+  },
+  {
+   "id": "illustrative",
+   "pattern": "илюстратив|ilustrativ|illustrativ|illustrative",
+   "level": "error",
+   "why": "никога „илюстративна снимка“ (нито надпис, нито alt)"
+  },
+  {
+   "id": "illustration",
+   "pattern": "\\bИлюстрация\\b|\\bIlustrație\\b|\\bIlustratie\\b",
+   "level": "error",
+   "why": "никога „Илюстрация“"
+  },
+  {
+   "id": "ad_label",
+   "pattern": "Рекламна публикация|\\bPublicitate\\b|Reklame|Anzeige\\b|Advertorial",
+   "level": "error",
+   "why": "етикетите „Рекламна публикация“ се махат винаги"
   }
+ ],
+ "so_simple": {
+  "_doc": "So Simple (Carina Precious): козметика, без медицински твърдения; без „100% натурални“ (greenwashing 14.10); гаранции и оферти само с ОК от Елица.",
+  "rules": [
+   {
+    "id": "cure",
+    "pattern": "излекува|лекува|лечение с|излекуван|vindecă|vindeca|tratează|trateaza",
+    "level": "error",
+    "why": "козметика: без „лекува/излекува“"
+   },
+   {
+    "id": "natural_100",
+    "pattern": "100\\s?%\\s?натурал|100\\s?%\\s?natural",
+    "level": "error",
+    "why": "без „100% натурални“, казваме „подбрани съставки“"
+   },
+   {
+    "id": "no_chemistry",
+    "pattern": "без химия|fără chimicale|fara chimicale|fără chimie",
+    "level": "error",
+    "why": "без „без химия“"
+   },
+   {
+    "id": "guarantee",
+    "pattern": "гаранц|garanți|garanti",
+    "level": "error",
+    "why": "гаранции само с ОК от Елица"
+   },
+   {
+    "id": "money_back",
+    "pattern": "парите обратно|връщаме парите|banii înapoi|banii inapoi",
+    "level": "error",
+    "why": "без „парите обратно“ (чака Елица)"
+   },
+   {
+    "id": "forever",
+    "pattern": "изчезна завинаги|завинаги изчез|dispare definitiv|pentru totdeauna",
+    "level": "error",
+    "why": "без обещания „изчезва завинаги“"
+   },
+   {
+    "id": "drugs",
+    "pattern": "изотретиноин|accutane|roaccutane|кортикостероид|corticosteroiz",
+    "level": "warn",
+    "why": "лекарства/стероиди само като контекст, никога като обещание"
+   },
+   {
+    "id": "success_rate",
+    "pattern": "\\d{2}\\s?%\\s?(успеваемост|успех|ефективност|eficien|succes)",
+    "level": "warn",
+    "why": "без %-успеваемост"
+   },
+   {
+    "id": "antiseptic",
+    "pattern": "антисептич|antiseptic",
+    "level": "warn",
+    "why": "медицинско твърдение"
+   },
+   {
+    "id": "dermatologist",
+    "pattern": "дерматолог|dermatolog",
+    "level": "warn",
+    "why": "без измислени лекари/дерматолози; провери дали е истински експерт"
+   },
+   {
+    "id": "bgn_on_ro",
+    "pattern": "\\bлв\\.?|\\bBGN\\b",
+    "level": "error",
+    "why": "на RO пазара цени само в евро/леи, без лева",
+    "lang": "ro"
+   }
+  ]
+ },
+ "nordics": {
+  "_doc": "Nordics: просто и вярно. Без медицински и избелващи твърдения от типа „избелва с пероксид“.",
+  "rules": [
+   {
+    "id": "cure",
+    "pattern": "излекува|лекува|vindecă|vindeca|cure[sd]?\\b",
+    "level": "error",
+    "why": "без „лекува/излекува“"
+   },
+   {
+    "id": "peroxide_whitening",
+    "pattern": "пероксид|peroxid|избелва\\w*\\s+с\\s+\\w+|бели зъби за \\d+",
+    "level": "error",
+    "why": "без „избелва с пероксид“ и подобни твърдения"
+   },
+   {
+    "id": "shades_whiter",
+    "pattern": "\\d+\\s*(нюанса|тона)\\s*(по-)?бел|\\d+\\s*nuanțe",
+    "level": "error",
+    "why": "без обещания „N нюанса по-бели“"
+   },
+   {
+    "id": "natural_100",
+    "pattern": "100\\s?%\\s?натурал|100\\s?%\\s?natural",
+    "level": "error",
+    "why": "без „100% натурални“"
+   },
+   {
+    "id": "no_chemistry",
+    "pattern": "без химия|fără chimicale",
+    "level": "error",
+    "why": "без „без химия“"
+   },
+   {
+    "id": "guarantee",
+    "pattern": "гаранц|garanți",
+    "level": "warn",
+    "why": "гаранция само ако е истинската от сайта"
+   },
+   {
+    "id": "money_back",
+    "pattern": "парите обратно|banii înapoi",
+    "level": "warn",
+    "why": "само ако е истинската оферта"
+   },
+   {
+    "id": "dentist",
+    "pattern": "зъболекар|стоматолог|dentist",
+    "level": "warn",
+    "why": "експерт само истински (д-р Юнуз)"
+   }
+  ]
+ },
+ "console_ignore": {
+  "_doc": "JS грешки от инфраструктурата на Shopify/пиксели: отиват като warn, не като грешка на страницата.",
+  "patterns": [
+   "sf_private_access_tokens",
+   "monorail",
+   "shop\\.app",
+   "track\\.",
+   "pixel",
+   "facebook",
+   "tiktok",
+   "klaviyo",
+   "clarity",
+   "googletagmanager",
+   "google-analytics",
+   "doubleclick",
+   "hotjar",
+   "judge\\.me"
+  ]
+ }
 }

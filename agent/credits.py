@@ -1,6 +1,6 @@
 """Отчет за kie.ai кредитите по етап, за да не свършват по средата на работата.
 
-    python3 agent/credits.py balance                       # баланс на всички ключове от ~/ads-automation/.env
+    python3 agent/credits.py balance [--all]               # основният ключ; --all и ключа на Маргарита (Павлова/Vitalaiz)
     python3 agent/credits.py start runs/<x> clone-art      # записва баланса преди етапа
     python3 agent/credits.py end   runs/<x> clone-art      # записва баланса след етапа и колко е изхарчено
     python3 agent/credits.py report runs/<x>               # разход по етап
@@ -31,10 +31,14 @@ def balance(key):
     return d.get("data")
 
 
-def balances():
+def balances(all_keys=False):
+    """По подразбиране само основният ключ. Ключът на Маргарита (Павлова/Vitalaiz) се чете само с --all:
+    той е за Павлова/Vitalaiz, а за други клиенти само при изрично разрешение (тест 22.10: агентът щеше да харчи от него)."""
     e = env()
     out = {}
     for name, var in KEYS.items():
+        if name != "основен" and not all_keys:
+            continue
         if e.get(var):
             try:
                 out[name] = balance(e[var])
@@ -70,7 +74,7 @@ def report(run):
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "balance"
     if cmd == "balance":
-        print(balances())
+        print(balances("--all" in sys.argv))
     elif cmd in ("start", "end"):
         print(log(sys.argv[2], cmd, sys.argv[3]))
     elif cmd == "report":

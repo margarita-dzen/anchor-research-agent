@@ -34,5 +34,13 @@
   "ad_account": "act_2897573163607813",
   "client_dir": "So-Simple",
   "reviews_build": "python3 ~/anchor-research-agent/agent/collect_reviews.py --site https://sosimplecosmetics.eu --shop so-simple-cosmetics.myshopify.com --out ~/Clients/So-Simple/reviews && python3 ~/anchor-research-agent/agent/review_bank.py ~/Clients/So-Simple/reviews",
-  "harvest_config": "runs/example/run.json"
+  "harvest_config": "runs/example/run.json",
+  "cloned": {
+    "acne_enduorin": "/pages/akne-tiyneydzhar-5-prichini (preview 203331305819, 22.10)",
+    "acne_shield": "/pages/akne-10-prichini (preview, 22.10)",
+    "acne_blume_hormonal": "/pages/hormonalno-akne-5-prichini (preview, 22.10)",
+    "acne_norse_acne": "тест 22.10: ~/so-simple-acne-v2/norse, шаблон ss-adv-acne-uverenost (preview)",
+    "acne_clearstem": "тест 22.10: ~/so-simple-acne-v2/clearstem, шаблон ss-adv-acne-8prichini (preview)"
+  },
+  "picks_artifact": "https://claude.ai/artifact/5XZpa5TbMJvrK4dm7nS3ED"
 }

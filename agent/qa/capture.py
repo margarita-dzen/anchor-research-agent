@@ -390,6 +390,10 @@ def open_page(browser, url, width, html=None, js=True, wait=3.0, errors=None, on
     except Exception:
         pass
     time.sleep(wait)
+    # банерът за бисквитки, лентата на preview темата и поп-ъпите не са част от страницата (тест 22.10: влизаха в снимките и блокираха клика)
+    page.evaluate("""()=>{for(const s of ['#shopify-pc__banner','.shopify-pc__banner__dialog','#preview-bar-iframe','#PBarNextFrameWrapper',
+      'iframe[src*=preview_bar]','#onetrust-banner-sdk','#CybotCookiebotDialog','.cc-window','[id*=cookie-banner]','[class*=cookie-consent]'])
+      document.querySelectorAll(s).forEach(e=>e.remove())}""")
     sc = page.evaluate(FIND_SCROLLER_JS)
     return ctx, page, sc
 
