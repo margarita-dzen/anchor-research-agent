@@ -1,0 +1,935 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Shelly funnels: the second wave of ads</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E&#128227;%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:'Manrope';src:url('/font/manrope-semibold.ttf') format('truetype');font-weight:500 600;font-display:swap}
+@font-face{font-family:'Manrope';src:url('/font/manrope-bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:'Manrope';src:url('/font/manrope-extrabold.ttf') format('truetype');font-weight:800;font-display:swap}
+:root{--ink:#121519;--muted:#5C6672;--line:#E3EAF0;--tint:#F0F4F7;--blue:#4594D1;--link:#1F6FA8;--navy:#003C82;
+  --stage:1220px;--pad:20px}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:400 16px/1.55 'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3{font-weight:600;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--link)}
+.fx-in{max-width:calc(var(--stage) + var(--pad)*2);margin:0 auto;padding-inline:var(--pad)}
+.sh-ann{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(90deg,#4594D1 0%,#0B4A8F 100%);color:#fff;font-size:14px;font-weight:600;padding:9px 16px;text-align:center}
+.sh-head{padding:12px var(--pad) 0;max-width:calc(var(--stage) + var(--pad)*2);margin:0 auto}
+.sh-bar{display:flex;align-items:center;gap:18px;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(18,21,25,.10);padding:10px 18px;min-height:58px}
+.sh-bar img{width:88px;height:24px}
+.sh-bar nav{display:flex;gap:22px;flex-wrap:wrap}
+.sh-bar nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:15.5px}
+.ad-intro{padding-block:30px 6px}
+.ad-intro h1{font-size:clamp(28px,4vw,40px);line-height:1.12}
+.ad-intro p{font-size:17.5px;color:#3A434C;margin-top:12px;max-width:44em}
+.ad-jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.ad-jump a,.ad-jump button{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:600 15px/1 'Manrope',sans-serif;text-decoration:none;color:var(--ink);background:#fff;cursor:pointer}
+.ad-jump a:hover,.ad-jump button:hover{background:var(--tint)}
+.ad-jump button[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.ad-note{margin-top:22px;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:16px 18px;background:var(--tint);font-size:16px;line-height:1.5;max-width:60em}
+.ad-note b{font-weight:700}
+.ad-h2{font-size:26px;margin-top:48px}
+.ad-sub{color:var(--muted);margin-top:4px}
+.ad-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:20px;align-items:start}
+.ad{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.ad .meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--tint);font-size:12.5px;color:var(--muted)}
+.ad .meta b{color:var(--ink);font-weight:600;font-size:13px}
+.ad .meta .fam{background:#E8F2FA;color:#1F6FA8;border-radius:999px;padding:3px 9px;font-weight:700;font-size:12px}
+.ad .pg{display:flex;align-items:center;gap:10px;padding:12px 14px 8px}
+.ad .pg img{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--tint)}
+.ad .pg b{display:block;font-size:15px;font-weight:600;line-height:1.2}
+.ad .pg span{display:block;font-size:12.5px;color:var(--muted)}
+.ad .copy{padding:0 14px 12px;font-size:15px;line-height:1.5;white-space:pre-wrap}
+.ad .shot{background:var(--tint)}
+.ad .shot img{width:100%}
+.ad .car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.ad .car::-webkit-scrollbar{display:none}
+.ad .car figure{flex:0 0 78%;min-width:0;margin:0;scroll-snap-align:start;border-right:1px solid var(--line)}
+.ad .car figcaption{font-size:13.5px;font-weight:600;padding:8px 12px;background:#fff}
+.ad .link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#F2F4F7;border-top:1px solid var(--line)}
+.ad .link .t{min-width:0;flex:1}
+.ad .link .dom{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ad .link b{display:block;font-size:15px;line-height:1.25;margin-top:2px}
+.ad .link span.desc{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.ad .cta{flex:0 0 auto;background:#E4E6EB;border-radius:8px;padding:9px 14px;font-size:14px;font-weight:600;white-space:nowrap}
+.ad .go{display:block;padding:10px 14px;font-size:13.5px;border-top:1px solid var(--line)}
+.ad .go a{font-weight:600}
+.ad[hidden]{display:none}
+footer{margin-top:64px;background:var(--tint);border-top:1px solid var(--line);padding:30px 0;font-size:14px;color:var(--muted)}
+@media (max-width:1020px){.ad-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.ad-grid{grid-template-columns:1fr}.ad .car figure{flex:0 0 86%}}
+</style></head><body>
+<div class="sh-ann">FREE DELIVERY for orders over 79&euro;</div>
+<header class="sh-head"><div class="sh-bar">
+<img src="/img/brand/shelly-logo.svg" alt="Shelly">
+<nav><a href="https://shellyx-advertorials.vercel.app/review" target="_blank">The first wave</a>
+<a href="https://shellyx-advertorials.vercel.app/ads-preview" target="_blank">The 54 live ads</a>
+<a href="#flood">Flood</a><a href="#energy">Energy</a><a href="#rental">Rental</a></nav>
+</div></header>
+<main class="fx-in">
+<section class="ad-intro"><h1>The second wave, in 19 design families</h1>
+<p>Sixty new ads for the same three lines and the same twelve pages. The first wave was
+fifty-four ads in a single treatment: a candid phone photograph with no text on it. Every ad
+below is deliberately something else, because Meta discounts near duplicates and rewards the
+same message in visually unrelated executions.</p>
+<div class="ad-jump"><a href="#flood">Flood</a><a href="#energy">Energy</a><a href="#rental">Rental</a></div>
+<div class="ad-jump" style="margin-top:10px"><button data-fam="Before and after split" aria-pressed="false">Before and after split</button><button data-fam="Bold typographic poster" aria-pressed="false">Bold typographic poster</button><button data-fam="CGI mechanism" aria-pressed="false">CGI mechanism</button><button data-fam="Carousel checklist" aria-pressed="false">Carousel checklist</button><button data-fam="Data infographic" aria-pressed="false">Data infographic</button><button data-fam="Document prop" aria-pressed="false">Document prop</button><button data-fam="Editorial article card" aria-pressed="false">Editorial article card</button><button data-fam="Flat vector diagram" aria-pressed="false">Flat vector diagram</button><button data-fam="Flat vector floor plan" aria-pressed="false">Flat vector floor plan</button><button data-fam="Flat vector icon rows" aria-pressed="false">Flat vector icon rows</button><button data-fam="Handwritten prop" aria-pressed="false">Handwritten prop</button><button data-fam="Macro photoreal" aria-pressed="false">Macro photoreal</button><button data-fam="Numbered checklist card" aria-pressed="false">Numbered checklist card</button><button data-fam="Phone UI screenshot" aria-pressed="false">Phone UI screenshot</button><button data-fam="Polaroid props" aria-pressed="false">Polaroid props</button><button data-fam="Product lineup" aria-pressed="false">Product lineup</button><button data-fam="Retro halftone poster" aria-pressed="false">Retro halftone poster</button><button data-fam="Timeline strip" aria-pressed="false">Timeline strip</button><button data-fam="VS two-panel" aria-pressed="false">VS two-panel</button></div>
+<div class="ad-note"><b>How to read this.</b> Every card names its design family, its format and
+the page it sends people to. Who posts the ad decides what the design may be: the Shelly page may
+carry brand and product, Home Signal is a publication and carries neither, and the three personal
+blogs carry neither. Tap a family above to see only that treatment.</div>
+</section>
+<section class="fx-sec line"><h2 class="ad-h2" id="flood">Flood</h2><p class="ad-sub">20 ads, 19 single image and 1 carousel, across 18 design families.</p><div class="ad-grid"><article class="ad" id="FG-20" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">FG-20</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">A hose behind a washing machine is under mains pressure all day, even when the machine is off.
+
+When one lets go it does not drip. It pushes out around 10 litres a minute, into a floor nobody is standing on. The average is six hours before a person sees it.
+
+The guide shows the three places water gets into a home, and how to make those six hours six seconds.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-GUIDE_SixHoursBeforeAnyoneSees-static-4x5-Sep-2026-01.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The three places water gets in</b><span class="desc">A 5-minute guide from Shelly</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-guide&amp;utm_content=FG-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FG-21" data-fam="Flat vector diagram">
+<div class="meta"><b class="code">FG-21</b><span class="fam">Flat vector diagram</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Ask someone where a home leak starts and they will say the bathroom. It is almost never the bathroom.
+
+It is the cupboard under the sink, the hose behind a machine, and the pipework inside a wall. Three places, and two of them are behind something you never move.
+
+The guide walks through each one, what goes wrong there, and how to watch all three without opening a single door.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-GUIDE_ThreePlacesWaterGetsIn-static-4x5-Sep-2026-02.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Where home leaks actually start</b><span class="desc">Three places, one guide</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-guide&amp;utm_content=FG-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FG-22" data-fam="VS two-panel">
+<div class="meta"><b class="code">FG-22</b><span class="fam">VS two-panel</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Two homes, the same hose, the same Tuesday.
+
+In the first, the water ran until somebody came home. In the second, a phone buzzed nine seconds after the first drop and somebody with a key was there in twenty minutes.
+
+The damage is not decided by the leak. It is decided by the gap between the leak and the first person who knows about it.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-GUIDE_NineHoursOrNineSeconds-static-4x5-Sep-2026-03.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Nine hours, or nine seconds</b><span class="desc">The same leak, two endings</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-guide&amp;utm_content=FG-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FG-23" data-fam="CGI mechanism">
+<div class="meta"><b class="code">FG-23</b><span class="fam">CGI mechanism</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Everyone prices a flood by the floor, because the floor is the part you can see.
+
+Water does not stay on top of it. It runs along the joints, under the boards, into the underlay, into the screed, and down through the slab to the ceiling below. That part dries for weeks with machines running, and it is the part that turns one claim into two.
+
+The guide explains what is underneath, and why the hours matter more than the litres.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-GUIDE_WhereTheWaterGoesUnderTheFloor-static-4x5-Sep-2026-04.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The floor you can see is the cheap part</b><span class="desc">What is underneath, explained</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-guide&amp;utm_content=FG-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FG-24" data-fam="Product lineup">
+<div class="meta"><b class="code">FG-24</b><span class="fam">Product lineup</span>
+<span>single image</span><span>9:16</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Four parts, one job: know about water in the second it appears instead of the evening you get home.
+
+The sensor goes in the sink cupboard. The cable runs along the appliance hose, which is where the big leaks start. The humidity sensor watches the wall, which is where the slow ones hide.
+
+64.60 EUR as separate products. 55.90 EUR as the kit.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-GUIDE_TheLeakKitFor5590-static-9x16-Sep-2026-05.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The leak kit, 55.90 EUR</b><span class="desc">Was 64.60 as separate parts</span></div>
+<span class="cta">Shop now</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-guide&amp;utm_content=FG-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FE-20" data-fam="Editorial article card">
+<div class="meta"><b class="code">FE-20</b><span class="fam">Editorial article card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">We went looking for what a home flood actually costs, and found the same shape in case after case.
+
+The water is cheap. The drying is not. One family in our set lived with machines running for about six months. Another was told the insurer would replace the damaged boards only, and ended up with two different floors in one flat.
+
+Eight cases, what each owner missed, and the one number that decided how bad it got.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-EXPLAINED_EscapeOfWaterTheClaim-static-4x5-Sep-2026-06.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Why the claim is bigger than the leak</b><span class="desc">Eight real cases</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-explained&amp;utm_content=FE-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FE-21" data-fam="Data infographic">
+<div class="meta"><b class="code">FE-21</b><span class="fam">Data infographic</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">This one had a sensor. It worked exactly as it should.
+
+It detected the water at half past eleven at night and it sat there beeping in an empty utility room until half past seven in the morning. Eight hours. An alarm that only makes a noise needs somebody standing near it.
+
+The explainer covers what each of the eight households had, what it did for them, and what would have shortened the gap.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-EXPLAINED_EightHoursNobodyLooked-static-4x5-Sep-2026-07.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Eight hours nobody was listening</b><span class="desc">What an alarm cannot do</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-explained&amp;utm_content=FE-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FE-22" data-fam="Document prop">
+<div class="meta"><b class="code">FE-22</b><span class="fam">Document prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Every policy has this paragraph and almost nobody has read it.
+
+A burst is usually covered. Water that has been getting out slowly, for weeks, is usually called gradual damage, and gradual damage is usually excluded. The slow leak under a sink is precisely the one that runs for weeks.
+
+Eight real cases, and what each household got back in the end.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-EXPLAINED_ThePartTheInsurerDoesNotPay-static-4x5-Sep-2026-08.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The part the insurer does not pay</b><span class="desc">Gradual damage, explained</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-explained&amp;utm_content=FE-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FE-23" data-fam="Retro halftone poster">
+<div class="meta"><b class="code">FE-23</b><span class="fam">Retro halftone poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">A burst pipe is loud. It is also rare.
+
+The common one is a joint under the sink that has worked loose, dripping onto a cabinet floor nobody looks at. It goes on for weeks. The board swells, the wall behind it gets damp, and by the time anybody notices, the fix is a new kitchen unit rather than a new washer.
+
+The explainer has eight of these, and the pattern they share.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-EXPLAINED_ASlowLeakIsAQuietOne-static-4x5-Sep-2026-09.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Real leaks are quiet</b><span class="desc">Why they get found late</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-explained&amp;utm_content=FE-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FE-24" data-fam="Macro photoreal">
+<div class="meta"><b class="code">FE-24</b><span class="fam">Macro photoreal</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Nobody calls this a leak. It is one drop every few minutes.
+
+Three weeks of it is enough to swell a cupboard floor, damp the wall behind and start the smell people notice before they notice the water. By then the repair is not the joint.
+
+Eight real cases in the explainer, and how long each one had been running before anyone used the word leak.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-EXPLAINED_ThisIsWhatWeeksLooksLike-static-9x16-Sep-2026-10.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>This is what week three looks like</b><span class="desc">Eight real cases</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-explained&amp;utm_content=FE-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FL-20" data-fam="Numbered checklist card">
+<div class="meta"><b class="code">FL-20</b><span class="fam">Numbered checklist card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Most flood advice starts by selling you something. This list does not.
+
+Number one is free and takes five minutes: find your stopcock and check it actually turns. Most people find out theirs is seized while standing in water. Number two costs about the price of a takeaway.
+
+Only the last two cost real money, and the article is honest about which homes need them.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FiveChecksTwoAreFree-static-4x5-Sep-2026-11.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 checks before the next leak</b><span class="desc">Two of them cost nothing</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-checklist&amp;utm_content=FL-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FL-21" data-fam="Flat vector icon rows">
+<div class="meta"><b class="code">FL-21</b><span class="fam">Flat vector icon rows</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">The five things are in order on purpose.
+
+The first three cost almost nothing and they are the ones most homes are missing. The last two are the only ones that do anything while the house is empty, which is when most of the damage happens.
+
+Start at the top this weekend and stop where your home actually needs you to stop.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FromFreeToAutomatic-static-4x5-Sep-2026-12.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>From free fixes to automatic</b><span class="desc">The 5-point leak check</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-checklist&amp;utm_content=FL-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FL-22" data-fam="Handwritten prop">
+<div class="meta"><b class="code">FL-22</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five things, written on the back of an envelope, in the order that matters.
+
+The first two are free and both take less time than making coffee. The third costs about twenty euros. Only the last two involve buying anything that plugs in, and the article says plainly which homes need them and which do not.
+
+Do the free ones this weekend.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_TheWeekendListOnTheMachine-static-4x5-Sep-2026-13.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The weekend leak check</b><span class="desc">Start with the free ones</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-checklist&amp;utm_content=FL-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FL-23" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">FL-23</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Do you know where your stopcock is, and have you turned it in the last year?
+
+Most people answer yes to the first and no to the second. A stopcock that has not moved in years does not move when you need it, and you find that out in the dark, in water, with a torch in your teeth.
+
+It is number one on our list of five, and it is free.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_TwoOfTheFiveCostNothing-static-9x16-Sep-2026-14.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Two of them cost nothing</b><span class="desc">5 things before the next leak</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-checklist&amp;utm_content=FL-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FL-24" data-fam="Carousel checklist">
+<div class="meta"><b class="code">FL-24</b><span class="fam">Carousel checklist</span>
+<span>carousel</span><span>1:1</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five things, in order, from the one that costs nothing to the one that works while you are away. Swipe through them.
+
+Most homes are missing the first two, and they are free or nearly free. The article explains what each one actually stops, and what it does not.</p>
+<div class="car"><figure><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FiveThingsCarousel-carousel-1x1-Sep-2026-15-slide1.jpg" alt="" loading="lazy"><figcaption>1. The stopcock</figcaption></figure><figure><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FiveThingsCarousel-carousel-1x1-Sep-2026-15-slide2.jpg" alt="" loading="lazy"><figcaption>2. The hoses</figcaption></figure><figure><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FiveThingsCarousel-carousel-1x1-Sep-2026-15-slide3.jpg" alt="" loading="lazy"><figcaption>3. The tray</figcaption></figure><figure><img src="/img/ads/EN-FLOOD-FLOOD-CHECKLIST_FiveThingsCarousel-carousel-1x1-Sep-2026-15-slide4.jpg" alt="" loading="lazy"><figcaption>4. The sensor</figcaption></figure></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 things before the next leak</b><span class="desc">Two of them cost nothing</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-checklist&amp;utm_content=FL-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FS-20" data-fam="Phone UI screenshot">
+<div class="meta"><b class="code">FS-20</b><span class="fam">Phone UI screenshot</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/martin.png" alt=""><div><b>Martin&#x27;s DIY Home</b><span>Sponsored</span></div></div>
+<p class="copy">This is the message I did not get that Tuesday.
+
+The dishwasher hose let go at nine in the morning while we were both at work. We walked in at six. Nine hours, an oak floor, the ceiling of the flat below, and 26 days of drying machines.
+
+The phone in this picture is mine. The alert is what sits under our sink now. I wrote the whole thing up, including what the insurer did not pay.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-STORY_TheAlertWeDidNotGet-static-4x5-Sep-2026-16.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The alert we did not get</b><span class="desc">Nine hours, one hose</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-story&amp;utm_content=FS-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FS-21" data-fam="Timeline strip">
+<div class="meta"><b class="code">FS-21</b><span class="fam">Timeline strip</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/martin.png" alt=""><div><b>Martin&#x27;s DIY Home</b><span>Sponsored</span></div></div>
+<p class="copy">Nine hours, written out, because the numbers still bother me.
+
+At nine the hose split. By eleven the water was under the boards. By two it had found the wall and the ceiling downstairs. At six we came home and put towels down, which did nothing at all.
+
+The repair came to 4,100 euros. The hose that caused it cost nine.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-STORY_NineHoursInFourSteps-static-4x5-Sep-2026-17.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Nine hours, in four lines</b><span class="desc">Martin&#x27;s DIY Home</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-story&amp;utm_content=FS-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FS-22" data-fam="Before and after split">
+<div class="meta"><b class="code">FS-22</b><span class="fam">Before and after split</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/martin.png" alt=""><div><b>Martin&#x27;s DIY Home</b><span>Sponsored</span></div></div>
+<p class="copy">Left is our kitchen the evening the hose let go. Right is the same cupboard now.
+
+The thing on the right costs less than one day of the drying machines we ended up renting. I did it in the wrong order, which is the only useful thing I have to say about it.
+
+The full story, the invoice and what the insurer would not cover are on the blog.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-STORY_ThatEveningAndTonight-static-4x5-Sep-2026-18.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Before and after one Tuesday</b><span class="desc">Martin&#x27;s DIY Home</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-story&amp;utm_content=FS-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FS-23" data-fam="Handwritten prop">
+<div class="meta"><b class="code">FS-23</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>9:16</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/martin.png" alt=""><div><b>Martin&#x27;s DIY Home</b><span>Sponsored</span></div></div>
+<p class="copy">I keep this bit of paper in the garage.
+
+On it are two numbers. What the repair cost us, and what the part that caused it cost. Four thousand one hundred euros, and nine.
+
+I wrote up the whole thing: what nine hours of water does to an old house, what the insurer paid and what it did not, and the small thing that now sits under our sink.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-STORY_FourThousandOneHundred-static-9x16-Sep-2026-19.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What I wish I had known</b><span class="desc">One hose, nine hours</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-story&amp;utm_content=FS-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="FS-24" data-fam="Polaroid props">
+<div class="meta"><b class="code">FS-24</b><span class="fam">Polaroid props</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/martin.png" alt=""><div><b>Martin&#x27;s DIY Home</b><span>Sponsored</span></div></div>
+<p class="copy">The loss adjuster wanted photographs, so I took a lot of photographs.
+
+What you cannot see in any of them is the part that actually cost the money: the time. Nine hours of water going somewhere nobody was looking, then twenty six days of machines.
+
+All of it is written up on the blog, along with the two things I changed afterwards.</p>
+<div class="shot"><img src="/img/ads/EN-FLOOD-FLOOD-STORY_ThePhotosForTheClaim-static-4x5-Sep-2026-20.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The Tuesday our kitchen flooded</b><span class="desc">Martin&#x27;s DIY Home</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/flood-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-flood&amp;utm_term=broad-flood-story&amp;utm_content=FS-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article></div></section><section class="fx-sec line"><h2 class="ad-h2" id="energy">Energy</h2><p class="ad-sub">20 ads, 19 single image and 1 carousel, across 18 design families.</p><div class="ad-grid"><article class="ad" id="EG-20" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">EG-20</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Your electricity bill tells you how much. It refuses to tell you what.
+
+One number for the fridge, the dryer, the media wall, the thing in the garage nobody has measured since it was handed down, and the lights everybody argues about. You cannot cut what you cannot see, so most people cut the wrong thing.
+
+The guide shows how to turn that one number into a list, in euros, from your phone.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-GUIDE_OneNumberForTheWholeHouse-static-4x5-Sep-2026-21.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>One number for the whole house</b><span class="desc">Where your electricity goes</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-guide&amp;utm_content=EG-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EG-21" data-fam="Flat vector diagram">
+<div class="meta"><b class="code">EG-21</b><span class="fam">Flat vector diagram</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Here is the whole problem in one picture.
+
+On the left, what you get: a single figure for everything in the house. On the right, what you need: what each thing actually costs to run, so the argument about the lights can end and the real culprit can be dealt with.
+
+The guide shows how to get from the left side to the right side in about a week.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-GUIDE_OneNumberIntoTwelve-static-4x5-Sep-2026-22.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Turn one number into twelve</b><span class="desc">A guide from Shelly</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-guide&amp;utm_content=EG-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EG-22" data-fam="VS two-panel">
+<div class="meta"><b class="code">EG-22</b><span class="fam">VS two-panel</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Unplugging your phone charger saves you well under a euro a year.
+
+The things that actually move a bill are big, old, and out of sight: a second freezer in the garage, a dehumidifier that never stops, a media wall that never really switches off. Nobody suspects them because nobody has ever put a number on them.
+
+The guide shows how to put a number on each one.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-GUIDE_WhatYouBlameWhatItIs-static-4x5-Sep-2026-23.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Stop blaming the chargers</b><span class="desc">Where the money actually goes</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-guide&amp;utm_content=EG-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EG-23" data-fam="CGI mechanism">
+<div class="meta"><b class="code">EG-23</b><span class="fam">CGI mechanism</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">It is three in the morning and your living room is still using electricity.
+
+The television, the soundbar, the console and the box all sit on standby, all night, every night. None of it appears separately on the bill. You get one number for the whole house and no way to tell which glowing dot is costing you anything.
+
+The guide shows how to price each one, and which can go on a schedule without anyone noticing.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-GUIDE_YourHouseAtThreeAm-static-4x5-Sep-2026-24.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What your media wall does at 3 am</b><span class="desc">Where your electricity goes</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-guide&amp;utm_content=EG-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EG-24" data-fam="Product lineup">
+<div class="meta"><b class="code">EG-24</b><span class="fam">Product lineup</span>
+<span>single image</span><span>9:16</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Six sockets, six numbers, in euros, on your phone.
+
+The strip goes behind the media wall, where four things draw power all night and none of them appear on the bill separately. The two plugs go on whatever you suspect: the old freezer, the dryer, the thing in the cellar.
+
+A week of readings usually ends the argument about the lights.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-GUIDE_TheMeteringSetFor6990-static-9x16-Sep-2026-25.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The metering set, 69.90 EUR</b><span class="desc">Was 79.80 as separate parts</span></div>
+<span class="cta">Shop now</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-guide&amp;utm_content=EG-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EE-20" data-fam="Editorial article card">
+<div class="meta"><b class="code">EE-20</b><span class="fam">Editorial article card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">A circuit kept tripping and the family were about to replace a fourteen year old freezer.
+
+Then somebody put a meter on it. The freezer was fine. The real cost was a halogen security light outside, being set off all night by the neighbourhood cats.
+
+Six households, six sets of readings, and four things almost everyone believes that the meters disprove.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-EXPLAINED_WhatRealMetersFound-static-4x5-Sep-2026-26.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Everyone blamed the freezer</b><span class="desc">What real meters found</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-explained&amp;utm_content=EE-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EE-21" data-fam="Data infographic">
+<div class="meta"><b class="code">EE-21</b><span class="fam">Data infographic</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">An energy app told one household their small fridge-freezer was costing about 26 a month.
+
+A meter on a similar one read 6.48. The app was not lying, it was guessing from a model. Every appliance in your house is being guessed at in exactly the same way, which is why the advice you get is generic and the savings never show up.
+
+Six real sets of readings, and what they overturned.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-EXPLAINED_TheAppGuessedTheMeterKnew-static-4x5-Sep-2026-27.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Estimates are not readings</b><span class="desc">Real meter numbers</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-explained&amp;utm_content=EE-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EE-22" data-fam="Document prop">
+<div class="meta"><b class="code">EE-22</b><span class="fam">Document prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">The envelope is on the mat and you already know the number inside went up again.
+
+What the bill will not tell you is why. It cannot separate the freezer from the dryer from the television that never really switches off. It gives you one figure for a whole house and leaves you to guess, and people guess wrong in a predictable direction.
+
+Six households stopped guessing and measured instead.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-EXPLAINED_OneNumberNoExplanation-static-4x5-Sep-2026-28.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>One number, no explanation</b><span class="desc">What real meters found</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-explained&amp;utm_content=EE-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EE-23" data-fam="Retro halftone poster">
+<div class="meta"><b class="code">EE-23</b><span class="fam">Retro halftone poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Four things almost everyone believes about their electricity bill, and what the readings actually said.
+
+That standby is negligible. That a new appliance always uses less than an old one. That the lights are worth arguing about. That an app estimate is close enough.
+
+Six households measured. Three of the four beliefs did not survive.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-EXPLAINED_TheMeterDoesNotGuess-static-4x5-Sep-2026-29.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Standby power: what is worth it</b><span class="desc">Real meter readings</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-explained&amp;utm_content=EE-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EE-24" data-fam="Macro photoreal">
+<div class="meta"><b class="code">EE-24</b><span class="fam">Macro photoreal</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Turn off the lights in your living room tonight and count the little glowing dots.
+
+Each one is something drawing power while you sleep. Some cost next to nothing. A few cost considerably more than people guess, and they are not the ones you would pick.
+
+The explainer uses real meter readings to say which is which, and a calculator to price your own in half a minute.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-EXPLAINED_CountTheLittleLights-static-9x16-Sep-2026-30.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Count the lights in the dark</b><span class="desc">Standby power, explained</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-explained&amp;utm_content=EE-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EL-20" data-fam="Numbered checklist card">
+<div class="meta"><b class="code">EL-20</b><span class="fam">Numbered checklist card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Every list starts with unplugging your phone charger. Ours does not, because it saves under a euro a year.
+
+Ours starts with the heating, which is most of what a home uses, and with a sheet of paper and a freezer door. Three of the five are free. The last two cost money and they are the only ones that tell you where the rest of it goes.
+
+In that order.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_FiveChangesThreeAreFree-static-4x5-Sep-2026-31.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 changes that cut the bill</b><span class="desc">Three of the five are free</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-checklist&amp;utm_content=EL-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EL-21" data-fam="Flat vector icon rows">
+<div class="meta"><b class="code">EL-21</b><span class="fam">Flat vector icon rows</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Three free changes, then two measurements. That order matters.
+
+The free ones are worth doing and they are worth doing first. But they are also where most people stop, which is why the bill keeps going up anyway. The only way to find what is actually costing you is to put a number on it.
+
+The list explains each one and what it is realistically worth.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_StartFreeThenMeasure-static-4x5-Sep-2026-32.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The free ones first</b><span class="desc">5 changes that cut the bill</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-checklist&amp;utm_content=EL-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EL-22" data-fam="Handwritten prop">
+<div class="meta"><b class="code">EL-22</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five things, stuck to the fridge, in the order we did them.
+
+The first three cost nothing and took a weekend between them. They helped. They did not explain why the bill was what it was.
+
+The last two are the ones that did, and the article is honest about the fact that they cost money and what you get for it.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_TheListOnTheFridge-static-4x5-Sep-2026-33.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 changes that cut the bill</b><span class="desc">Three of them are free</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-checklist&amp;utm_content=EL-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EL-23" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">EL-23</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">The charger tip costs you nothing to follow and saves you almost nothing.
+
+It survives because it is easy to repeat, not because it works. Meanwhile the heating, the dryer and whatever is humming in the garage carry on unmeasured.
+
+Five changes that actually show up on the bill. Three of them are free, and the first one is the biggest.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_NoneOfThemIsYourCharger-static-9x16-Sep-2026-34.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Stop unplugging your charger</b><span class="desc">5 changes that cut the bill</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-checklist&amp;utm_content=EL-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="EL-24" data-fam="Carousel checklist">
+<div class="meta"><b class="code">EL-24</b><span class="fam">Carousel checklist</span>
+<span>carousel</span><span>1:1</span><span>goes to: Home Signal checklist</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five changes, in order, from the three that are free to the two that tell you where the money actually goes. Swipe through them.
+
+None of them is unplugging your phone charger, because that one saves under a euro a year.</p>
+<div class="car"><figure><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_FiveChangesCarousel-carousel-1x1-Sep-2026-35-slide1.jpg" alt="" loading="lazy"><figcaption>1. One degree</figcaption></figure><figure><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_FiveChangesCarousel-carousel-1x1-Sep-2026-35-slide2.jpg" alt="" loading="lazy"><figcaption>2. The paper test</figcaption></figure><figure><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_FiveChangesCarousel-carousel-1x1-Sep-2026-35-slide3.jpg" alt="" loading="lazy"><figcaption>3. Wash and dry</figcaption></figure><figure><img src="/img/ads/EN-ENERGY-ENERGY-CHECKLIST_FiveChangesCarousel-carousel-1x1-Sep-2026-35-slide4.jpg" alt="" loading="lazy"><figcaption>4. The always-on</figcaption></figure></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 changes that cut the bill</b><span class="desc">Three of the five are free</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-checklist?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-checklist&amp;utm_content=EL-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="ES-20" data-fam="Phone UI screenshot">
+<div class="meta"><b class="code">ES-20</b><span class="fam">Phone UI screenshot</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/andreas.png" alt=""><div><b>Andreas on a Budget</b><span>Sponsored</span></div></div>
+<p class="copy">For two years my wife and I had the same argument. Lights off, she said. They are LEDs, I said.
+
+Neither of us actually knew. Our bill was one number for a whole flat, so we were both arguing from nothing.
+
+So I put meters on things, one corner at a time. This is week one. The lights are not on this list at all, and the chargers are at the bottom where they always are.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-STORY_AWeekOfReadings-static-4x5-Sep-2026-36.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>One plug, one week, one answer</b><span class="desc">Andreas on a Budget</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-story&amp;utm_content=ES-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="ES-21" data-fam="Timeline strip">
+<div class="meta"><b class="code">ES-21</b><span class="fam">Timeline strip</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/andreas.png" alt=""><div><b>Andreas on a Budget</b><span>Sponsored</span></div></div>
+<p class="copy">Month one, I just looked. Month two, I changed two things.
+
+The first was a fourteen year old freezer that nobody had ever measured, because why would you, it worked. The second was a media wall that drew power all night, fixed in two minutes in an app.
+
+The bill came in 23 percent lower and neither of us changed a single habit.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-STORY_TwoMonthsTwoChanges-static-4x5-Sep-2026-37.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Two months, two changes</b><span class="desc">Andreas on a Budget</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-story&amp;utm_content=ES-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="ES-22" data-fam="Before and after split">
+<div class="meta"><b class="code">ES-22</b><span class="fam">Before and after split</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/andreas.png" alt=""><div><b>Andreas on a Budget</b><span>Sponsored</span></div></div>
+<p class="copy">Two bills for the same flat, two months apart.
+
+Between them: one freezer replaced and one schedule set. No shorter showers, no sitting in the dark, no arguing about the lights. I could not have picked either of those two things without measuring first, because neither of them was on my list of suspects.
+
+The readings and what they cost me are on the blog.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-STORY_TwoBillsSideBySide-static-4x5-Sep-2026-38.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The bill came in 23 percent lower</b><span class="desc">Andreas on a Budget</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-story&amp;utm_content=ES-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="ES-23" data-fam="Handwritten prop">
+<div class="meta"><b class="code">ES-23</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>9:16</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/andreas.png" alt=""><div><b>Andreas on a Budget</b><span>Sponsored</span></div></div>
+<p class="copy">For two years we argued about the lights. We were both wrong.
+
+The lights were not even in the top five. It was a freezer nobody had measured and a wall of electronics that never really switched off, and I only found them because I stopped guessing and put a meter on things for a week.
+
+The list, the readings and the 23 percent are on the blog.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-STORY_ItWasNotTheLights-static-9x16-Sep-2026-39.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>We were arguing about the wrong thing</b><span class="desc">What the meter found</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-story&amp;utm_content=ES-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="ES-24" data-fam="Polaroid props">
+<div class="meta"><b class="code">ES-24</b><span class="fam">Polaroid props</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/andreas.png" alt=""><div><b>Andreas on a Budget</b><span>Sponsored</span></div></div>
+<p class="copy">These four went first, in this order, one week each.
+
+Three of them were roughly what I expected. One of them was not, and it was the one that had been quietly sitting in the garage since my father in law gave it to us.
+
+I wrote down what each one read and what it works out to over a year.</p>
+<div class="shot"><img src="/img/ads/EN-ENERGY-ENERGY-STORY_TheThingsIMetered-static-4x5-Sep-2026-40.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Old freezer, new freezer</b><span class="desc">What the meter found</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/energy-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-energy&amp;utm_term=broad-energy-story&amp;utm_content=ES-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article></div></section><section class="fx-sec line"><h2 class="ad-h2" id="rental">Rental</h2><p class="ad-sub">20 ads, 19 single image and 1 carousel, across 18 design families.</p><div class="ad-grid"><article class="ad" id="RG-20" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">RG-20</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Two things are true about a let property at the same time.
+
+You are not allowed to watch inside it. And every key you have ever handed out is still out there, on a ring, in somebody&#x27;s drawer, along with the code you gave the cleaner two summers ago.
+
+The guide covers what you are allowed to put in instead, and what each piece actually tells you.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-KIT-GUIDE_YouCannotPutACameraIn-static-4x5-Sep-2026-41.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>No camera, no keys to trust</b><span class="desc">A guide for landlords</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-kit-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-kit-guide&amp;utm_content=RG-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RG-21" data-fam="Flat vector floor plan">
+<div class="meta"><b class="code">RG-21</b><span class="fam">Flat vector floor plan</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">A floor plan of a one bedroom let, with the three things a landlord is allowed to know marked on it.
+
+Not who. Not what they look like. Not what is being said. Just whether the place is in use, and the time every outside door opened.
+
+That is the record that settles disputes, and it is the one you can install without a camera anywhere in the flat.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-KIT-GUIDE_WhatGoesWhereInALet-static-4x5-Sep-2026-42.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What goes where in a let flat</b><span class="desc">No camera needed</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-kit-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-kit-guide&amp;utm_content=RG-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RG-22" data-fam="VS two-panel">
+<div class="meta"><b class="code">RG-22</b><span class="fam">VS two-panel</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Hosts keep asking the same question and getting the same wrong answer.
+
+A camera inside the property is not a grey area. It is banned outright by the platforms and by law in most of Europe, and using one costs you the listing as well as the dispute.
+
+What is allowed is a record with no image and no sound: the time each outside door opened, and whether anyone is in there. That is the thing that settles claims.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-KIT-GUIDE_ACameraOrATimeOnTheDoor-static-4x5-Sep-2026-43.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What a host is allowed to know</b><span class="desc">No camera, no keys to trust</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-kit-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-kit-guide&amp;utm_content=RG-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RG-23" data-fam="CGI mechanism">
+<div class="meta"><b class="code">RG-23</b><span class="fam">CGI mechanism</span>
+<span>single image</span><span>4:5</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">A dispute is not decided by what happened. It is decided by what you can show.
+
+The hosts who get somewhere have a record with times on it. The hosts who only have their word usually do not, however obviously right they are.
+
+The guide covers the three pieces that produce that record in a let property, none of which involves pointing anything at a guest.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-KIT-GUIDE_EveryDoorHasATime-static-4x5-Sep-2026-44.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Every door, with a time on it</b><span class="desc">What wins a host dispute</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-kit-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-kit-guide&amp;utm_content=RG-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RG-24" data-fam="Product lineup">
+<div class="meta"><b class="code">RG-24</b><span class="fam">Product lineup</span>
+<span>single image</span><span>9:16</span><span>goes to: Shelly guide</span></div>
+<div class="pg"><img src="/img/brand/shelly.jpg" alt=""><div><b>Shelly</b><span>Sponsored</span></div></div>
+<p class="copy">Two questions, answered without a camera anywhere in the flat.
+
+Is anyone in there right now, and when did each outside door open. No image, no sound, no identity, nothing that breaks a platform rule or a privacy law.
+
+101.70 EUR as separate products. 89.90 EUR as the set, once.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-KIT-GUIDE_TheLetKitFor8990-static-9x16-Sep-2026-45.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The let kit, 89.90 EUR</b><span class="desc">Was 101.70 as separate parts</span></div>
+<span class="cta">Shop now</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-kit-guide?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-kit-guide&amp;utm_content=RG-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RE-20" data-fam="Editorial article card">
+<div class="meta"><b class="code">RE-20</b><span class="fam">Editorial article card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">A flat booked for five guests. The cleaners counted more than ten sets of towels. At eleven at night a neighbour rang about roughly thirty people.
+
+The host had photographs of the mess the next morning, which proved there had been a mess and nothing else. No count, no times, nothing that separated five guests from thirty.
+
+Eight real disputes, what each host had, and what it was worth.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-EXPLAINED_EightHostsTheHardWay-static-4x5-Sep-2026-46.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What eight hosts found out</b><span class="desc">Real host cases, explained</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-explained&amp;utm_content=RE-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RE-21" data-fam="Data infographic">
+<div class="meta"><b class="code">RE-21</b><span class="fam">Data infographic</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Three numbers from the same weekend, in the same flat.
+
+Five is what the booking said. Ten or more is what the cleaners counted the next morning. About thirty is what the neighbour told the police at eleven at night.
+
+The host could prove none of it, because photographs of a mess have no time on them and no count in them. One of the eight cases in our explainer, and the only one where the evidence came from a shop across the road.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-EXPLAINED_BookedForFiveCountedThirty-static-4x5-Sep-2026-47.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The booking said two guests</b><span class="desc">What a host can prove</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-explained&amp;utm_content=RE-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RE-22" data-fam="Document prop">
+<div class="meta"><b class="code">RE-22</b><span class="fam">Document prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Checkout day. The guest is gone, the review is not written yet, and something in the flat is broken.
+
+What happens next comes down to one thing: whether you can show what happened and when. In the disputes we read, the hosts with timestamps got somewhere. The hosts with only their word mostly did not, including the ones who were plainly telling the truth.
+
+Eight cases, and what each host had.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-EXPLAINED_YourWordAgainstTheirs-static-4x5-Sep-2026-48.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>My word against theirs</b><span class="desc">What wins a host dispute</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-explained&amp;utm_content=RE-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RE-23" data-fam="Retro halftone poster">
+<div class="meta"><b class="code">RE-23</b><span class="fam">Retro halftone poster</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Hosts take photographs of the damage. Almost nobody takes anything with a time on it.
+
+A photograph proves there was a mess. It cannot show when the party started, how long it went on, or how many people were in a flat booked for two. In a dispute, that is the difference between a claim that goes somewhere and one that does not.
+
+Eight real cases, and the kind of record that did hold up.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-EXPLAINED_NoTimeNoProof-static-4x5-Sep-2026-49.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What wins a host dispute</b><span class="desc">Real host cases, explained</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-explained&amp;utm_content=RE-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RE-24" data-fam="Macro photoreal">
+<div class="meta"><b class="code">RE-24</b><span class="fam">Macro photoreal</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal explainer</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Count the people who have had a key to your let property.
+
+The tenant before last. Their partner. A cleaner you used for one summer. Whoever they lent it to for an afternoon. Every one of those keys still works, and there is no list of them anywhere.
+
+The explainer covers what a host can lawfully know instead, and which of it actually holds up in a dispute.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-EXPLAINED_EveryKeyYouEverHandedOut-static-9x16-Sep-2026-50.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Every key you ever handed out</b><span class="desc">For anyone who lets a property</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-explained?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-explained&amp;utm_content=RE-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RL-20" data-fam="Numbered checklist card">
+<div class="meta"><b class="code">RL-20</b><span class="fam">Numbered checklist card</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal list</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Every host list on the internet has a camera on it somewhere. Ours does not, and not because of taste.
+
+A camera inside a let property is banned by the platforms and unlawful in most of the EU. It is also the single fastest way to lose a listing you have spent two years building.
+
+Five things that are allowed, starting with the two that cost almost nothing.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_FiveMustHavesNoCamera-static-4x5-Sep-2026-51.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 must-haves before the next guest</b><span class="desc">None of them is a camera</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/airbnb-must-haves?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-airbnb-must-haves&amp;utm_content=RL-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RL-21" data-fam="Flat vector icon rows">
+<div class="meta"><b class="code">RL-21</b><span class="fam">Flat vector icon rows</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal list</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five things, and the reason each one is on the list.
+
+The first two are free or required and most hosts have them. The last three are the ones that actually produce a record, and none of them involves pointing anything at a guest or recording anything a guest says.
+
+The article explains what each one is allowed to do, and what it is not.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_AllowedAndUseful-static-4x5-Sep-2026-52.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 must-haves for every host</b><span class="desc">Two cost almost nothing</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/airbnb-must-haves?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-airbnb-must-haves&amp;utm_content=RL-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RL-22" data-fam="Handwritten prop">
+<div class="meta"><b class="code">RL-22</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>4:5</span><span>goes to: Home Signal list</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">The five things I would put in before the next booking, in the order I did them.
+
+The first two are free and every host should already have them. The last three are the ones I did after a weekend that went badly, and they are the only reason the next dispute took one message instead of three weeks.
+
+None of them is a camera, and the article says why in one paragraph.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_TheHostListInTheDrawer-static-4x5-Sep-2026-53.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The must-have most hosts skip</b><span class="desc">5 must-haves for every host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/airbnb-must-haves?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-airbnb-must-haves&amp;utm_content=RL-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RL-23" data-fam="Bold typographic poster">
+<div class="meta"><b class="code">RL-23</b><span class="fam">Bold typographic poster</span>
+<span>single image</span><span>9:16</span><span>goes to: Home Signal list</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Hosts keep asking whether a small camera in the hallway is acceptable.
+
+It is not. Not by the platform rules, not by law in most of Europe, and not by the guest who finds it and posts a photograph of it. The listing goes before the dispute does.
+
+Five things that are allowed, and the two of them that produce a record you can actually use.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_NoneOfThemIsACamera-static-9x16-Sep-2026-54.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 must-haves, none is a camera</b><span class="desc">Why not, in one paragraph</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/airbnb-must-haves?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-airbnb-must-haves&amp;utm_content=RL-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RL-24" data-fam="Carousel checklist">
+<div class="meta"><b class="code">RL-24</b><span class="fam">Carousel checklist</span>
+<span>carousel</span><span>1:1</span><span>goes to: Home Signal list</span></div>
+<div class="pg"><img src="/img/brand/signal.png" alt=""><div><b>Home Signal</b><span>Sponsored</span></div></div>
+<p class="copy">Five must-haves before the next guest, and not one of them is a camera. Swipe through them.
+
+The first two cost almost nothing. The last three are the ones that give you a record, and the article explains exactly what each is allowed to do.</p>
+<div class="car"><figure><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_FiveMustHavesCarousel-carousel-1x1-Sep-2026-55-slide1.jpg" alt="" loading="lazy"><figcaption>1. House rules</figcaption></figure><figure><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_FiveMustHavesCarousel-carousel-1x1-Sep-2026-55-slide2.jpg" alt="" loading="lazy"><figcaption>2. Safety</figcaption></figure><figure><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_FiveMustHavesCarousel-carousel-1x1-Sep-2026-55-slide3.jpg" alt="" loading="lazy"><figcaption>3. Presence</figcaption></figure><figure><img src="/img/ads/EN-RENTAL-AIRBNB-MUST-HAVES_FiveMustHavesCarousel-carousel-1x1-Sep-2026-55-slide4.jpg" alt="" loading="lazy"><figcaption>4. The doors</figcaption></figure></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>5 must-haves before the next guest</b><span class="desc">None of them is a camera</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/airbnb-must-haves?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-airbnb-must-haves&amp;utm_content=RL-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RS-20" data-fam="Phone UI screenshot">
+<div class="meta"><b class="code">RS-20</b><span class="fam">Phone UI screenshot</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/elena.png" alt=""><div><b>Elena, The Lisbon Host</b><span>Sponsored</span></div></div>
+<p class="copy">A guest said nobody was in the flat that night. The flat disagreed, to the minute.
+
+I sent one screenshot. Front door at 23:41, again at 02:14 and 02:20, and presence in the living room until just after six in the morning. The claim was 1,400 euros and it ended the same afternoon.
+
+No camera, no recording, nothing pointed at anybody. Just times.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-STORY_TheDoorLogThatSettledIt-static-4x5-Sep-2026-56.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>Settled with one screenshot</b><span class="desc">Elena, The Lisbon Host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-story&amp;utm_content=RS-20" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RS-21" data-fam="Timeline strip">
+<div class="meta"><b class="code">RS-21</b><span class="fam">Timeline strip</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/elena.png" alt=""><div><b>Elena, The Lisbon Host</b><span>Sponsored</span></div></div>
+<p class="copy">Four lines is all it took, in the end.
+
+I had no photographs worth anything and no witnesses. What I had was a list of times: when the door opened, when it opened again in the middle of the night, and how long the living room stayed in use.
+
+The claim was 1,400 euros. It was settled the same afternoon I sent that list.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-STORY_OneWeekendInFourLines-static-4x5-Sep-2026-57.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>One weekend, one screenshot</b><span class="desc">Elena, The Lisbon Host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-story&amp;utm_content=RS-21" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RS-22" data-fam="Before and after split">
+<div class="meta"><b class="code">RS-22</b><span class="fam">Before and after split</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/elena.png" alt=""><div><b>Elena, The Lisbon Host</b><span>Sponsored</span></div></div>
+<p class="copy">Before that weekend I thought photographs were evidence.
+
+They are not. A photograph proves there was a mess. It does not show when it started, how long it went on, or how many people were in a flat booked for two, and every one of those was the thing in dispute.
+
+What settled it was a list of times, and it took one message.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-STORY_WhatIHadWhatTheFlatHad-static-4x5-Sep-2026-58.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>My word against theirs</b><span class="desc">Elena, The Lisbon Host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-story&amp;utm_content=RS-22" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RS-23" data-fam="Handwritten prop">
+<div class="meta"><b class="code">RS-23</b><span class="fam">Handwritten prop</span>
+<span>single image</span><span>9:16</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/elena.png" alt=""><div><b>Elena, The Lisbon Host</b><span>Sponsored</span></div></div>
+<p class="copy">The claim was 1,400 euros for a night the guest said nobody had spent in the flat.
+
+I had no camera, because a camera inside is not allowed and I would not have one anyway. What I had was a list of times: the door at 23:41, at 02:14, at 02:20, and the living room in use until just after six.
+
+One screenshot. Settled that afternoon.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-STORY_FourteenHundredOneScreenshot-static-9x16-Sep-2026-59.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>The 1,400 euro claim I settled</b><span class="desc">Elena, The Lisbon Host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-story&amp;utm_content=RS-23" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article><article class="ad" id="RS-24" data-fam="Polaroid props">
+<div class="meta"><b class="code">RS-24</b><span class="fam">Polaroid props</span>
+<span>single image</span><span>4:5</span><span>goes to: Personal story</span></div>
+<div class="pg"><img src="/img/brand/elena.png" alt=""><div><b>Elena, The Lisbon Host</b><span>Sponsored</span></div></div>
+<p class="copy">I took all of these the morning after, and not one of them was any use.
+
+They prove there was a mess. They do not prove when it started, how long it went on, or that there were far more people in a flat booked for two. The guest simply said it was not like that, and it became their word against mine.
+
+What ended it was a list of times, and I wrote up how.</p>
+<div class="shot"><img src="/img/ads/EN-RENTAL-RENTAL-STORY_ThePhotosThatProvedNothing-static-4x5-Sep-2026-60.jpg" alt="" loading="lazy"></div>
+<div class="link"><div class="t"><span class="dom">shellyx-advertorials.vercel.app</span>
+<b>What one bad weekend taught me</b><span class="desc">Elena, The Lisbon Host</span></div>
+<span class="cta">Learn more</span></div>
+<span class="go"><a href="https://shellyx-advertorials.vercel.app/rental-story?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=shellyx-rental&amp;utm_term=broad-rental-story&amp;utm_content=RS-24" target="_blank" rel="noopener">Open the page this ad points at</a></span>
+</article></div></section>
+</main>
+<footer><div class="fx-in">Nothing here is live and no page is indexed. Prices in EUR.
+Flood 55.90, Energy 69.90, Rental 89.90, all per the approved offer table.</div></footer>
+<script>
+const btns=[...document.querySelectorAll('[data-fam]')];
+btns.forEach(b=>b.onclick=()=>{
+  const on=b.getAttribute('aria-pressed')==='true';
+  btns.forEach(x=>x.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed', on?'false':'true');
+  const want=on?null:b.dataset.fam;
+  document.querySelectorAll('.ad').forEach(a=>{a.hidden=want&&a.dataset.fam!==want});
+  document.querySelectorAll('section.line').forEach(s=>{
+    s.hidden=!s.querySelector('.ad:not([hidden])');
+  });
+});
+</script></body></html>
