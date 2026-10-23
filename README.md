@@ -23,10 +23,10 @@ python3 agent/run.py runs/<име>/run.json done <етап>
 | 7 | Разбор на фуниите | Claude | `docs/stages.md#фунии`, `agent/qa/capture.py`, `agent/clone_mode.py` |
 | 8 | Пасване + крайна оценка (60/40) + местни конкуренти | авто | `agent/fit.py funnels` |
 | 9 | **Контролна точка 1:** избор | Валентин | артефакт Да / Може би / Не (`docs/stages.md#избор`) |
-| 10 | Клониране | Claude | `docs/absolute-clone.md`, `docs/design-skills.md`, `docs/rules.md` |
+| 10 | Клониране | Claude | `docs/absolute-clone.md` (чеклист §8), `docs/design-skills.md`, `docs/rules.md`; числата и твърденията: `agent/review_stats.py`, `agent/claims.py rank/stock` |
 | 11 | Текстове | Claude | `skills/copy-masters` (авторът в `utm_content`) |
 | 12 | Реклами | Claude | anchor-creative-playbook, `agent/credits.py start/end` |
-| 13 | QA с праг | авто + Claude | `agent/qa/run_qa.py`; `done qa` не минава под прага без записана причина |
+| 13 | QA с праг | авто + Claude | `agent/qa/run_qa.py` (сходство, копи, отзиви, снимки през `check_media.py`); `done qa` не минава под прага без записана причина |
 | 14 | **Контролна точка 2:** преглед | Валентин | `templates/review/README.md` (Shelly шаблоните) |
 | 15 | Резултати и учене | авто, седмично | `agent/weekly.py` → `results.py`, `snapshot_diff.py`, `calibrate.py`, `feedback.py` |
 

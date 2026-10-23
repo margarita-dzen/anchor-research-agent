@@ -1,35 +1,50 @@
 # Научени проверки (от прегледите)
 
-Общо 12 поискани промени.
+Общо 45 поискани промени.
 
 Най-честите категории се проверяват ПРЕДИ да се покаже нещо за преглед.
 
-## снимка / визия (4)
-- so_simple_atopi / page:atopichna-kozha: детските преди/след като отделни ло-фи снимки с различен ъгъл и фон
-- so_simple_atopi / page:derma-savetnik: графиките в стила на INA адвърториалите, стикът на бял фон → lo-fi UGC снимка
-- so_simple_atopi / ads:atopi_derma: без звездички и без дисклеймър по визиите и копито
+## снимка / визия (18)
+- so_simple_acne / page:akne-10-prichini-zheni: първата снимка: стикът е твърде малък и тесен и го нанася, без да е отворен
+- so_simple_acne / page:akne-10-prichini-zheni: снимката с билките е до грешната причина; нова UGC снимка майка и дете със SOS и ACNE GONE
+- so_simple_acne / page:akne-10-prichini-zheni: завъртяна снимка на момиче → колаж от 8 UGC със стика
 
-## продукт във визията (4)
-- so_simple_atopi / page:atopichna-kozha: секцията „Други продукти“ да се махне
-- so_simple_atopi / page:atopichna-kozha: момиченцето със стика: стикът е твърде голям
-- so_simple_atopi / page:derma-savetnik: етикетът „Рекламна публикация“ в хедъра да се махне
+## продукт във визията (12)
+- so_simple_acne / page:akne-10-prichini-zheni: хедлайнът казва „този“ продукт: „Този билков мехлем“, не „билков стик“
+- so_simple_acne / page:akne-10-prichini-zheni: първата снимка: стикът е твърде малък и тесен и го нанася, без да е отворен
+- so_simple_acne / page:akne-10-prichini-zheni: същите проценти и текст като оригинала, само стикът вдясно
+
+## не е като оригинала (10)
+- so_simple_acne / page:akne-10-prichini-zheni: преди/след като оригинала: светли, с кръгове върху проблема; нашата е с ефект и сянка
+- so_simple_acne / page:akne-10-prichini-zheni: същите проценти и текст като оригинала, само стикът вдясно
+- so_simple_acne / page:akne-10-prichini-zheni: галерията долу като в оригинала
+
+## текст / копи (9)
+- so_simple_acne / page:akne-10-prichini-zheni: CTA е „Get clearer skin in 7 days“, нашият казва „Вижте офертата“: превод дословно
+- so_simple_acne / page:akne-10-prichini-zheni: хедлайнът казва „този“ продукт: „Този билков мехлем“, не „билков стик“
+- so_simple_acne / page:akne-10-prichini-zheni: същите проценти и текст като оригинала, само стикът вдясно
+
+## друго (6)
+- so_simple_acne / page:akne-10-prichini-zheni: махни бележката за Judge.me с датата
+- so_simple_acne / page:akne-6-bilki-uverenost: движещата се лента да е с градиент и главни букви
+- so_simple_acne / page:akne-6-bilki-uverenost: медийната лента да се движи като на началната страница
+
+## отзиви (6)
+- so_simple_acne / page:akne-10-prichini-zheni: отзивите в слайдера в същия дизайн и със снимки преди/след
+- so_simple_acne / page:akne-10-prichini-zheni: махни снимката на стика от картата с отзив
+- so_simple_acne / page:akne-6-bilki-uverenost: отзивът под снимката: градиент, главни букви, контраст на думи като оригинала
+
+## оферта / цена (5)
+- so_simple_acne / page:akne-10-prichini-zheni: CTA е „Get clearer skin in 7 days“, нашият казва „Вижте офертата“: превод дословно
+- so_simple_acne / page:akne-6-bilki-uverenost: CTA не „3 на цената на 2“, а „Вижте как да спестите повече“
+- so_simple_acne / page:akne-6-bilki-uverenost: галерията в офертата: три еднакви студийни снимки; разнообразни (ползи, преди/след, лайфстайл, UGC) с отзив
+
+## дизайн / шрифт / цвят (5)
+- so_simple_acne / page:akne-10-prichini-zheni: отзивите в слайдера в същия дизайн и със снимки преди/след
+- so_simple_acne / page:akne-10-prichini-zheni: числата застъпват стика; дизайн с дълбочина, професионален
+- so_simple_acne / page:akne-10-prichini-zheni: сложи твърдението „Try the #1 treatment“ над бутона
 
 ## забранено / правило (4)
 - so_simple_atopi / page:derma-savetnik: етикетът „Рекламна публикация“ в хедъра да се махне
 - so_simple_atopi / ads:atopi_derma: без звездички и без дисклеймър по визиите и копито
 - so_simple_atopi / page:atopichna-kozha: махни надписа „илюстративна снимка“ навсякъде
-
-## не е като оригинала (2)
-- so_simple_atopi / page:atopichna-kozha v1: няма нищо общо с примера, като помоля за абсолютно клониране не го правиш
-- so_simple_atopi / page:atopichna-kozha: детските преди/след като отделни ло-фи снимки с различен ъгъл и фон
-
-## отзиви (2)
-- so_simple_atopi / page:atopichna-kozha v1: няма нищо общо с примера, като помоля за абсолютно клониране не го правиш
-- so_simple_atopi / page:atopichna-kozha: без „проверен купувач“
-
-## текст / копи (2)
-- so_simple_atopi / page:derma-savetnik: BOX NOW да се махне от страницата и от копито
-- so_simple_atopi / ads:atopi_derma: без звездички и без дисклеймър по визиите и копито
-
-## друго (1)
-- so_simple_atopi / page:atopichna-kozha: поп-ъпите на сайта (Хелоуин, „Нанеси крема“) да не излизат на адвърториала
