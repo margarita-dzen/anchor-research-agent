@@ -11,6 +11,9 @@
      >= 3 реклами или 1 реклама с >= 5 дубликата, поне 1 активна.
   2. Сила 0-100: активни 25, дубликати 20, нови за 30 дни 20, макс. дни 15, държави 10, трафик на домейна 10.
      Липсващ трафик не наказва: теглото му се разпределя върху останалите сигнали.
+  3. Скорост (само за показване, НЕ влиза в силата и в еталона): формулата от ad_velocity.py на Вальо
+     (cod-funnel-launch): 3 x нови за 7 дни + нови за 30 дни + 0,3 x всички + 5, ако най-старата е над 60 дни.
+     Много нови варианти = скалират го сега; „scaling_now“ = поне 3 нови за 7 дни.
 """
 import argparse, collections, datetime, json, math, os
 from urllib.parse import urlparse
@@ -34,6 +37,12 @@ if os.path.exists(_W):
             SIGNALS[_k] = (_w,) + SIGNALS[_k][1:]
 GATE = dict(min_ads=3, min_dups_single=5, min_active=1)
 NEW_WINDOW_DAYS = 30
+SCALING_7D = 3
+
+
+def velocity(new_7d, new_30d, ads, max_days):
+    """Скорост на пускане (ad_velocity.py, anchor-playbooks). Само сигнал за показване."""
+    return round(3 * new_7d + new_30d + 0.3 * ads + (5 if max_days > 60 else 0), 1)
 
 
 def load_blocklist(path=None):
@@ -103,7 +112,7 @@ def aggregate(ads, today, products=None, traffic=None, blocklist=None, resolved=
     blocklist = blocklist if blocklist is not None else load_blocklist()
     traffic = traffic or {}
     resolved = resolved or {}
-    groups = collections.defaultdict(lambda: dict(ads=0, active_ads=0, duplicates=0, new_ads_30d=0, max_days=0,
+    groups = collections.defaultdict(lambda: dict(ads=0, active_ads=0, duplicates=0, new_ads_30d=0, new_ads_7d=0, max_days=0,
                                                   countries=set(), brands=set(), ad_ids=[], host=""))
     for a in ads:
         if products and a.get("product") not in products:
@@ -121,15 +130,20 @@ def aggregate(ads, today, products=None, traffic=None, blocklist=None, resolved=
             g["brands"].add(a["brand"])
         g["ad_ids"].append(a.get("meta_ad_id"))
         fs = a.get("first_seen")
-        if fs and (today - datetime.date.fromisoformat(fs)).days <= NEW_WINDOW_DAYS:
+        age = (today - datetime.date.fromisoformat(fs)).days if fs else None
+        if age is not None and age <= NEW_WINDOW_DAYS:
             g["new_ads_30d"] += 1
+        if age is not None and age <= 7:
+            g["new_ads_7d"] += 1
 
     passed, rejected = [], []
     for url, g in groups.items():
         host = g["host"]
         row = dict(url=url, domain=host, brands=sorted(g["brands"]), ads=g["ads"], active_ads=g["active_ads"],
                    duplicates=g["duplicates"], new_ads_30d=g["new_ads_30d"], max_days=g["max_days"],
-                   countries=sorted(g["countries"]), domain_visits=traffic.get(host), ad_ids=g["ad_ids"][:20])
+                   countries=sorted(g["countries"]), domain_visits=traffic.get(host), ad_ids=g["ad_ids"][:20],
+                   new_ads_7d=g["new_ads_7d"], velocity=velocity(g["new_ads_7d"], g["new_ads_30d"], g["ads"], g["max_days"]),
+                   scaling_now=g["new_ads_7d"] >= SCALING_7D)
         reasons = []
         if not url:
             reasons.append("няма линк")
@@ -176,11 +190,11 @@ def main():
         json.dump(dict(scale="evidence-v1", today=str(today), weights={k: v[0] for k, v in SIGNALS.items()}, gate=GATE,
                        passed=passed, rejected=rejected), open(a.out, "w"), ensure_ascii=False, indent=1)
     print(f"дата {today} · минават {len(passed)} · отпадат {len(rejected)}")
-    print(f"{'сила':>5} {'акт':>4} {'дуб':>4} {'нови':>4} {'дни':>4} {'държ':>4} {'трафик':>8}  url")
+    print(f"{'сила':>5} {'акт':>4} {'дуб':>4} {'нови':>4} {'7дни':>4} {'дни':>4} {'държ':>4} {'трафик':>8} {'скор':>5}  url")
     for r in passed[:a.top]:
         v = r["domain_visits"]
-        print(f"{r['evidence']:5.1f} {r['active_ads']:4} {r['duplicates']:4} {r['new_ads_30d']:4} {r['max_days']:4} "
-              f"{len(r['countries']):4} {v if v else '-':>8}  {r['url'][:80]}")
+        print(f"{r['evidence']:5.1f} {r['active_ads']:4} {r['duplicates']:4} {r['new_ads_30d']:4} {r['new_ads_7d']:4} {r['max_days']:4} "
+              f"{len(r['countries']):4} {v if v else '-':>8} {r['velocity']:5.1f}{'↑' if r['scaling_now'] else ' '} {r['url'][:78]}")
 
 
 if __name__ == "__main__":

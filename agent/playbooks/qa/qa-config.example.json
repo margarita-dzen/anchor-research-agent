@@ -1,0 +1,27 @@
+{
+  "_comment": "Used by qa_pages.py and qa_pixel_stub.py. Selectors must match your pages. The test key is NOT stored here: set QA_TEST_KEY in the environment for qa_pixel_stub.py --run.",
+  "base_url": "https://your-funnel-domain.example",
+  "viewport": {"width": 390, "height": 844},
+  "block_patterns": ["facebook\\.com", "facebook\\.net/signals", "clarity\\.ms", "google-analytics\\.com", "googletagmanager\\.com"],
+  "pixel_script_pattern": "connect\\.facebook\\.net/.*fbevents\\.js",
+  "pages": [
+    "/xx/article/a1", "/xx/article/a5", "/xx/checkout", "/xx/thank-you", "/xx/terms", "/xx/withdrawal"
+  ],
+  "consent_accept_selector": "#consent .accept",
+  "cta_selector": "a.btn[data-cta]",
+  "submit_selector": "#submit",
+  "order_api_pattern": "/api/order",
+  "order_id_field": "id",
+  "order_total_field": "total",
+  "test_key_field": "testKey",
+  "shown_total_selector": "#sTot",
+  "expected_events": ["PageView", "ViewContent", "InitiateCheckout", "AddToCart", "Purchase"],
+  "markets": [
+    {
+      "code": "xx",
+      "article": "/xx/article/a5",
+      "fields": {"name": "Test Tester", "phone": "601234567", "zip": "10000", "city": "Testcity", "street": "Test street 1", "point": "Test point 1"},
+      "check": ["#gift"]
+    }
+  ]
+}

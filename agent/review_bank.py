@@ -77,6 +77,9 @@ def merge(rows):
             b["pictures"] = list(dict.fromkeys(b["pictures"] + r["pictures"]))
             b["videos"] = list(dict.fromkeys(b["videos"] + r["videos"]))
             b["sources"] = sorted(set(b["sources"]) | {r["source"]})
+            # Woo връща всеки отзив два пъти (с оценка и без), docx е без оценка: пази оценката, където я има (Nordics 23.10)
+            if b.get("rating") is None and r.get("rating") is not None:
+                b["rating"] = r["rating"]
             if b["product"].startswith("xlsx:") and not r["product"].startswith("xlsx:"):
                 b["product"] = r["product"]
         else:

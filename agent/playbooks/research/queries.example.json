@@ -1,0 +1,43 @@
+{
+  "_readme": [
+    "Copy this file into your research folder as queries.json and edit it.",
+    "problems: one key per customer problem (snake_case). The list holds the search term in each language, in the same order as 'languages'. Use null to skip a language.",
+    "Write the words a customer would type or an ad would say, in everyday language, not the product category. Native-speaker wording beats a literal translation.",
+    "fb_country: which Meta Ad Library country to search for each language (Scrape Creators). ALL = no country filter.",
+    "trendtrack.min_days_by_language: use 60+ for big foreign markets (DE, FR, NL, Nordic countries) so you only get ads that have been running long enough to be profitable ('proven abroad'). Use 0 for your own markets so you also see new competitors.",
+    "Each source is switched on with on: true. run_queries.py prints the credit estimate and stops; it only spends credits with --go.",
+    "advertisers: fill these after the first digest, with the competitors you want to pull in full. TrendTrack ids come from 'trendtrack.py lookup <domain>' (free). Facebook page ids come from the Ad Library URL or from /v1/facebook/adLibrary/search/companies (1 credit).",
+    "All keys starting with _ are ignored."
+  ],
+  "name": "posture-example",
+  "languages": ["en", "de", "bg", "ro"],
+  "fb_country": {"en": "ALL", "de": "DE", "bg": "BG", "ro": "RO"},
+  "problems": {
+    "back_pain": ["back pain", "Rückenschmerzen", "болки в гърба", "dureri de spate"],
+    "neck_pain": ["neck pain", "Nackenschmerzen", "болки във врата", "dureri de gât"],
+    "posture": ["posture corrector", "Haltungskorrektur", "коректор за стойка", "corector de postură"]
+  },
+  "trendtrack": {
+    "on": true,
+    "limit": 25,
+    "min_days_running": 0,
+    "min_days_by_language": {"de": 60}
+  },
+  "fb_adlibrary": {
+    "on": false,
+    "pages": 2,
+    "_pages_note": "page 1 = up to 30 ads, page 2 = up to 10 more. The API caps a query at about 40 ads, so pages > 2 rarely adds anything."
+  },
+  "social": {
+    "on": false,
+    "platforms": ["tiktok", "instagram", "youtube"],
+    "languages": ["bg", "ro"],
+    "_note": "TikTok / Instagram / YouTube search is NOT filtered by country. Search in the local language and filter results by region or author afterwards (digest.py social)."
+  },
+  "advertisers": {
+    "trendtrack_ids": {"_ExampleCompetitor": "advertiser id from trendtrack.py lookup"},
+    "trendtrack_limit": 25,
+    "facebook_page_ids": {"_ExampleCompetitor": "numeric Facebook page id"},
+    "fb_pages": 2
+  }
+}

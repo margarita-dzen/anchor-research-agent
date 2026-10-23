@@ -1,0 +1,7 @@
+{
+  "_doc": "Еталон: фуниите, които Валентин избра за клониране (23.10.2026), артефакт WjFJVxRFwMdtmiKaTd8VC1 (db picks).",
+  "funnels_yes": ["emily_cavities", "primals_6_reasons", "primals_mom_emf", "dentarel_7_reasons", "shinyshoes_7_reasons_bg"],
+  "angles_yes": ["Битката за миенето", "Правим всичко правилно, а пак кариес в млечните зъби", "Сам си мие: навикът за цял живот", "Нежна за първите зъбки", "Зъболекарят на децата препоръчва"],
+  "angles_no": ["Детето избира своя герой", "Цялото семейство на една четка", "Микропластмаса / EMF (Primals)"],
+  "scored": "~/anchor-research-agent/runs/nordics_kids/funnels/funnels_kids_scored.json"
+}

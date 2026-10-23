@@ -24,10 +24,14 @@ def stages(cfg, run_dir):
     rj = os.path.join(run_dir, "run.json")
     hc = os.path.join(ROOT, cfg["harvest_config"]) if cfg.get("harvest_config") else rj  # конфигурацията на adlib (заявки, теми)
     bank = os.path.expanduser(cfg.get("bank", f"~/Clients/{cfg.get('client_dir', '')}/reviews/bank.json"))
+    # крайните URL-и (resolve_urls.py) влизат в скалата, ако ги има (тест nordics_kids 23.10: без тях проследяващите линкове се броят поотделно)
+    res = f"{d}/ads/resolved.json"
+    resolved = f" --resolved {res}" if os.path.exists(res) else ""
     return [
-        ("harvest", "auto", f"python3 {A}/adlib/harvest.py {hc} && python3 {A}/adlib/harvest.py {hc} --top-pages 5", "Сваляне на рекламите от Ad Library по run.json (queries)"),
+        ("harvest", "auto", f"python3 {A}/adlib/harvest.py {hc} && python3 {A}/adlib/consolidate.py {hc} && python3 {A}/adlib/thumbs.py {hc} && python3 {A}/adlib/harvest.py {hc} --top-pages 5", "Сваляне на рекламите от Ad Library по run.json (queries)"),
         ("consolidate", "auto", f"python3 {A}/adlib/consolidate.py {hc} && python3 {A}/adlib/thumbs.py {hc} && python3 {A}/adlib/eu_reach.py {hc} --top 100", "Обединяване по collation_id, визии"),
-        ("evidence", "auto", f"python3 {A}/evidence.py {ads} {prod} --out {d}/ads/landing_evidence_{p}.json", "Сила на доказателствата"),
+        ("proof_sweep", "optional", "docs/stages.md#доказателства-от-trendtrack", "По желание: TrendTrack/Scrape Creators по пазари за доказателство (платено, само след ОК за сумата) → import_playbook_ads.py"),
+        ("evidence", "auto", f"python3 {A}/evidence.py {ads} {prod}{resolved} --out {d}/ads/landing_evidence_{p}.json", "Сила на доказателствата (+ скорост на пускане)"),
         ("relevance", "auto", f"python3 {A}/fit.py relevance {d}/ads/landing_evidence_{p}.json {ads} --run {rj} --out {d}/ads/landing_ranked_{p}.json", "Чистене от теми извън продукта"),
         ("reviews", "auto", cfg.get("reviews_build", ""), "Банка с истински отзиви на клиента"),
         ("angles", "claude", "docs/stages.md#ъгли", "Ъгли и хукове от рекламите + банката (creative-strategy, copy-masters/schwartz)"),
@@ -37,7 +41,8 @@ def stages(cfg, run_dir):
         ("clone", "claude", "docs/absolute-clone.md", "Клониране на избраните фунии (clone_mode.py решава дизайна)"),
         ("copy", "claude", "skills/copy-masters/SKILL.md", "Текстове за страниците и рекламите, авторът в utm_content"),
         ("ads", "claude", "docs/stages.md#реклами", "Визии (anchor-creative-playbook), kie кредити през credits.py start/end"),
-        ("qa", "claude", "docs/absolute-clone.md#7", f"За всеки клонинг: python3 {A}/qa/run_qa.py <оригинал> <клонинг> --client {cfg.get('client')} --out {run_dir}/qa/<фуния>"),
+        ("qa", "claude", "docs/absolute-clone.md#7", f"За всеки клонинг: python3 {A}/qa/run_qa.py <оригинал> <клонинг> --client {cfg.get('client')} --out {run_dir}/qa/<фуния>; пътят до количката: python3 {A}/qa/verify_cart.py"),
+        ("critique", "claude", "docs/stages.md#критика", "Кръг критика преди прегледа: читател-купувач, DR срещу оригинала, Meta + ЕС; FIXSPEC с решенията на Валентин, после поправки и повторна проверка"),
         ("review", "checkpoint", "templates/review/README.md", "КОНТРОЛНА ТОЧКА 2: преглед и одобрение (Shelly шаблоните)"),
         ("results", "auto", f"python3 {A}/results.py --account {cfg.get('ad_account', '?')} --since {{since}} --until {{until}} --match {p} --out {run_dir}/results.json", "След 7-14 дни: ROAS по фуния, концепция, автор"),
     ]
@@ -78,7 +83,7 @@ def main():
             print(f"{'✓' if st.get(name) == 'done' else '·'} {name:12} {kind:10} {desc}")
         return
     for name, kind, action, desc in ss:
-        if st.get(name) == "done":
+        if st.get(name) == "done" or kind == "optional":  # етапите по желание не спират „next“
             continue
         print(f"→ {name} ({kind}): {desc}")
         if kind == "auto":

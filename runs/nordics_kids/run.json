@@ -1,0 +1,44 @@
+{
+ "client": "nordics",
+ "product": "kids",
+ "title": "Детски електрически четки Nordics (Жираф CA910, Лъв CA078, Панда CA2610)",
+ "markets": [
+  "BG"
+ ],
+ "data_dir": "~/anchor-research-agent/runs/nordics_kids",
+ "ads": "~/anchor-research-agent/runs/nordics_kids/ads/ads_all.json",
+ "evidence_products": [
+  "kids"
+ ],
+ "fit": {
+  "topic": "(?s)(kid|child|toddler|baby|little|kinder|kind\\b|enfant|bambin|niñ|dzieci|dziec|copii|copil|barn\\b|детск|дете|деца|dětsk|gyerek|junior|bambini|kinderen).*(toothbrush|tooth brush|zahnbürste|brosse à dents|spazzolino|cepillo|szczoteczk|periu|tandenborstel|tandborste|четк|kartáč|fogkefe|brushing|brush|zähne|teeth|dents|zęb|dinti|зъб|zuby|fog)|(toothbrush|tooth brush|zahnbürste|brosse à dents|spazzolino|cepillo|szczoteczk|periu|tandenborstel|tandborste|четк|kartáč|fogkefe|brushing|brush|zähne|teeth|dents|zęb|dinti|зъб|zuby|fog).*(kid|child|toddler|baby|little|kinder|kind\\b|enfant|bambin|niñ|dzieci|dziec|copii|copil|barn\\b|детск|дете|деца|dětsk|gyerek|junior|bambini|kinderen)",
+  "form": "electric|sonic|elektrisch|schall|électrique|elettric|eléctric|soniczn|elektryczn|electric|eltand|електрическ|звуков|elektrick|elektromos|vibrat|rechargeable|battery",
+  "audience": "kid|child|toddler|mum|mom|mother|parent|kinder|eltern|enfant|parent|bambin|genitor|niñ|dziec|rodzic|copil|părinț|barn|förälder|дете|деца|мама|майк|родит",
+  "angles": {
+   "битката за миенето": "fight|battle|struggle|hate brush|refuse|tantrum|cry|битк|борба|отказ|плач|kampf|bataille|lotta|walka",
+   "игра и забава": "game|play|fun|игра|забав|spiel|jeu|gioco|zabaw|app|song|music|light",
+   "кариеси и млечни зъби": "cavit|decay|karies|carie|próchnic|кариес|млечн|milk teeth|baby teeth|dentist bill",
+   "сам си мие": "independ|by himself|by herself|alone|сам|selbst|seul|da sol|samodziel",
+   "зъболекар препоръчва": "dentist|dental|hygienist|зъболекар|stomatolog|zahnarzt|dentiste|dentista",
+   "таймер 2 минути": "2 min|two minutes|timer|таймер|2 минути|30 sec|zwei minuten"
+  },
+  "bank_products": [
+   "detska-zvukova-chetka-ca2610-panda",
+   "site-quotes"
+  ],
+  "exclude": "\\bdogs?\\b|puppy|\\bpets?\\b|\\bcats?\\b|hund|куче|whitening strips|braces adult|denture"
+ },
+ "ad_account": "act_1778243412349323",
+ "client_dir": "Nordics",
+ "reviews_build": "echo банката е готова: ~/Clients/Nordics/reviews/bank.json",
+ "harvest_config": "runs/nordics_kids/harvest.json",
+ "cloned": {
+  "emily_cavities": "~/nordics-kids-clones/emily_cavities/ (локално, преглед CaziXTthZpiknA6J5rQtDm, 23.10)",
+  "primals_6_reasons": "~/nordics-kids-clones/primals_6_reasons/ (локално, преглед CaziXTthZpiknA6J5rQtDm, 23.10)",
+  "primals_mom_emf": "~/nordics-kids-clones/primals_mom_emf/ (локално, преглед CaziXTthZpiknA6J5rQtDm, 23.10)",
+  "dentarel_7_reasons": "~/nordics-kids-clones/dentarel_7_reasons/ (локално, преглед CaziXTthZpiknA6J5rQtDm, 23.10)",
+  "shinyshoes_7_reasons_bg": "~/nordics-kids-clones/shinyshoes_7_reasons_bg/ (локално, преглед CaziXTthZpiknA6J5rQtDm, 23.10)"
+ },
+ "pick_artifact": "https://claude.ai/artifact/WjFJVxRFwMdtmiKaTd8VC1",
+ "review_artifact": "https://claude.ai/artifact/CaziXTthZpiknA6J5rQtDm"
+}

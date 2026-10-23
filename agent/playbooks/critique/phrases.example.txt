@@ -1,0 +1,9 @@
+# Old phrases that must be gone after the fix round (one per line).
+# Plain lines are case-sensitive substrings. Lines starting with re: are case-insensitive regular expressions.
+# Collect them from the quotes in the reviewer reports and the FIXSPEC.
+arrives in a few days
+If you close this page now
+full purchase price
+Only now
+re:wrote (me )?everything down
+re:\bLtd EOOD\b

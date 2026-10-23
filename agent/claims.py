@@ -7,11 +7,15 @@ rank:  ShopifyQL продажби по продукт за последните 
        му в магазина за същия проблем (--peers, части от заглавия, разделени със запетая) → дали „№1 при <проблем>“ е вярно.
 stock: totalInventory + продадени бройки за N дни → седмици наличност и честна формулировка
        („ограничено количество“ само под LIMITED_WEEKS седмици).
-Засега е вързан само so_simple (helper-ът _lib.mjs с gql от ads-automation). Python пише временен .mjs и пуска node.
+Shopify: so_simple (helper-ът _lib.mjs с gql от ads-automation). Python пише временен .mjs и пуска node.
+WooCommerce: nordics (23.10). Продажбите от wc-analytics/reports/products, наличността от wc/v3/products?slug=.
+Достъпът е WP application password „user:pass“ от env WP_AUTH_<КЛИЕНТ> или ~/.config/anchor-research-agent/wp_<клиент>
+(никога в репото). За Woo --handle е slug-ът на продукта.
 """
-import argparse, json, os, subprocess, sys, tempfile
+import argparse, base64, datetime, json, os, subprocess, sys, tempfile, urllib.parse, urllib.request
 
 LIBS = {"so_simple": "/Users/magi/ads-automation/clients/so_simple/shopify/_lib.mjs"}
+WOO = {"nordics": "https://wearenordics.com"}
 LIMITED_WEEKS = 10
 
 NODE = """import { gql } from %s;
@@ -46,7 +50,41 @@ def shopifyql(client, q):
     return d["tableData"]["rows"]
 
 
+def woo_auth(client):
+    v = os.environ.get(f"WP_AUTH_{client.upper()}")
+    f = os.path.expanduser(f"~/.config/anchor-research-agent/wp_{client}")
+    if not v and os.path.exists(f):
+        v = open(f).read().strip()
+    if not v:
+        raise SystemExit(f"няма достъп до WooCommerce за {client}: env WP_AUTH_{client.upper()} или {f} (user:application password)")
+    return "Basic " + base64.b64encode(v.encode()).decode()
+
+
+def woo_get(client, path, params=None):
+    """Само GET към WooCommerce REST."""
+    url = f"{WOO[client]}/wp-json/{path}" + ("?" + urllib.parse.urlencode(params, doseq=True) if params else "")
+    req = urllib.request.Request(url, headers={"Authorization": woo_auth(client), "User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=90) as r:
+        return json.load(r)
+
+
+def woo_sales(client, days):
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=days)
+    rows, page = [], 1
+    while True:
+        d = woo_get(client, "wc-analytics/reports/products", dict(after=f"{start}T00:00:00", before=f"{end}T23:59:59", per_page=100,
+                                                                  page=page, orderby="items_sold", order="desc", extended_info="true"))
+        rows += [dict(title=(x.get("extended_info") or {}).get("name") or str(x["product_id"]), units=float(x.get("items_sold") or 0),
+                      net=float(x.get("net_revenue") or 0), id=x["product_id"]) for x in d]
+        if len(d) < 100:
+            return rows
+        page += 1
+
+
 def sales(client, days):
+    if client in WOO:
+        return woo_sales(client, days)
     q = (f"FROM sales SHOW net_items_sold, net_sales GROUP BY product_title SINCE -{days}d UNTIL today "
          "ORDER BY net_items_sold DESC LIMIT 1000")
     return [dict(title=r["product_title"], units=float(r["net_items_sold"] or 0), net=float(r["net_sales"] or 0)) for r in shopifyql(client, q)]
@@ -89,14 +127,39 @@ def cmd_rank(a):
         print(f"  {i}. {r['title']}: {int(r['units'])} бр., {r['net']:.0f} €")
     print(f"„{me['title']}“: №{overall} сред всички продукти, №{among} от {len(group)} сред продуктите за същия проблем.")
     if among == 1:
-        print(f"„№1 при <проблем>“: ДА (най-продаваният в магазина за проблема, {a.days} дни, ShopifyQL).")
+        print(f"„№1 при <проблем>“: ДА (най-продаваният в магазина за проблема, {a.days} дни, {'wc-analytics' if a.client in WOO else 'ShopifyQL'}).")
     else:
         print("„№1 при <проблем>“: НЕ. Пиши друго („любим на купувачите“, броя продажби).")
     if overall == 1:
         print("„№1 продукт на марката“: ДА.")
 
 
+def cmd_stock_woo(a):
+    found = woo_get(a.client, "wc/v3/products", dict(slug=a.handle))
+    if not found:
+        raise SystemExit(f"няма продукт със slug {a.handle}")
+    p = found[0]
+    row = next((r for r in sales(a.client, a.days) if r["id"] == p["id"]), None)
+    units = row["units"] if row else 0
+    print(f"„{p['name']}“ ({p['id']}): продадени {int(units)} за {a.days} дни, total_sales за цялото време {p.get('total_sales')}")
+    if not p.get("manage_stock"):
+        print("Магазинът не следи бройки (manage_stock: false): недостигът НЕ е проверим по данни.")
+        note = (json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "clients.json"))).get(a.client, {}).get("claims") or {}).get("low_stock_text")
+        if note:
+            print(f"Одобрена от Валентин формулировка: „{note}“ (без бройки).")
+        print("Честни формулировки:")
+        print(f"  - " + stock_wording(0, units, a.days)[2][0])
+        return
+    weekly, weeks, lines = stock_wording(p.get("stock_quantity") or 0, units, a.days)
+    print(f"Наличност {p.get('stock_quantity')} бр. ({weekly:.0f} на седмица), стига за {weeks:.1f} седмици" if weeks else f"Наличност {p.get('stock_quantity')} бр.")
+    print("Честни формулировки:")
+    for x in lines:
+        print("  - " + x)
+
+
 def cmd_stock(a):
+    if a.client in WOO:
+        return cmd_stock_woo(a)
     p = gql(a.client, "query($h:String!){productByHandle(handle:$h){title totalInventory}}", {"h": a.handle})["productByHandle"]
     if not p:
         raise SystemExit(f"няма продукт {a.handle}")
@@ -113,7 +176,7 @@ def cmd_stock(a):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="№1 и недостиг по продажбите в Shopify (само четене)")
+    ap = argparse.ArgumentParser(description="№1 и недостиг по продажбите в Shopify / WooCommerce (само четене)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("rank")
     r.add_argument("--product-title", required=True)

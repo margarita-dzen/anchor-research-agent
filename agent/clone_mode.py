@@ -6,9 +6,12 @@
   - лендингът е на друг хост (трета медия, лична история, поддомейн-пресейл като go./learn./try./continut.) → "keep":
     цветовете, шрифтовете и дизайнът на примера се запазват.
 
-    python3 agent/clone_mode.py funnels_acne.json
+    python3 agent/clone_mode.py funnels_acne.json [--client nordics]
+
+Клиентът може да има `clone_overrides` в config/clients.json (Nordics 23.10: шрифтове и цветове винаги от бранд бука,
+без курсив, бутони с главни букви). Те важат и в режим keep: от примера остават структурата и техниките.
 """
-import json, sys
+import json, os, sys
 from urllib.parse import urlparse
 
 STORE_TYPES = {"PDP", "bundle", "cart"}
@@ -33,9 +36,18 @@ def clone_mode(steps):
     return "keep", f"външен хост {land}, магазинът е на {store[0]}"
 
 
+def overrides(client, path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "clients.json")):
+    o = (json.load(open(path)).get(client) or {}).get("clone_overrides") or {}
+    return {k: v for k, v in o.items() if not k.startswith("_")}
+
+
 def main():
+    client = sys.argv[sys.argv.index("--client") + 1] if "--client" in sys.argv else None
+    ov = overrides(client) if client else {}
     for f in json.load(open(sys.argv[1])):
         mode, why = clone_mode(f.get("steps") or [])
+        if mode == "keep" and ov:
+            why += " · но " + ", ".join(f"{k}={v}" for k, v in ov.items()) + " (clone_overrides)"
         print(f"{mode:5}  {f.get('brand', '')[:22]:22}  {why}")
 
 

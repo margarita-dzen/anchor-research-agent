@@ -1,0 +1,26 @@
+{
+  "_readme": "Input for scripts/verify_cart_paths.py. One entry per path a buyer can take (main, main+U1, main+D1, ... with U2/D2), per colour and per quantity tier you sell. Variant ids come from scripts/catalogue_dump.py. expect_total is the cart subtotal you expect in store currency: with bundle products priced directly it equals your funnel price; with an automatic discount the cart shows catalogue price and the discount only appears at checkout, so leave it out or set the catalogue sum.",
+  "store": "https://www.example-store.com",
+  "locale": "",
+  "ref": "examplefunnels",
+  "paths": [
+    {
+      "name": "water M",
+      "lines": [{"variant": 1001, "qty": 1}],
+      "attributes": {"funnel": "A", "funnel_path": "M", "funnel_source": "water-guide"},
+      "expect_total": 59.90
+    },
+    {
+      "name": "water M-U1-U2",
+      "lines": [{"variant": 1001, "qty": 1}, {"variant": 1011, "qty": 1}, {"variant": 1021, "qty": 1}],
+      "attributes": {"funnel": "A", "funnel_path": "M-U1-U2"},
+      "expect_total": 214.70
+    },
+    {
+      "name": "water M-D1-D2 (pl storefront)",
+      "locale": "pl",
+      "lines": [{"variant": 1001, "qty": 1}, {"variant": 1012, "qty": 1}, {"variant": 1022, "qty": 1}],
+      "attributes": {"funnel": "A", "funnel_path": "M-D1-D2"}
+    }
+  ]
+}
