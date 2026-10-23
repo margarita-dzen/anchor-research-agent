@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-MIN_PX = 60
+MIN_PX = 90  # миниатюрите на галерията (48-80 px) са навигация, не повторена снимка
 ROT_RATIO = 1.6
 ROT_MIN_PX = 120
 THUMB_PX = 80
