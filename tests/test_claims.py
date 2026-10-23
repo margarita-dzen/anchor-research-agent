@@ -92,7 +92,8 @@ class Media(unittest.TestCase):
         self.assertEqual(duplicates([img("https://x.com/i.svg", 24, 24), img("https://x.com/i.svg", 24, 24)]), [])
 
     def test_rotation_and_crop(self):
-        self.assertTrue(rotated(img("a", w=390, h=220, nw=1200, nh=1600)))   # портрет, показан легнал
+        self.assertTrue(rotated(img("a", w=390, h=220, nw=1200, nh=1600, fit="fill")))   # портрет, показан легнал
+        self.assertFalse(rotated(img("a", w=356, h=280, nw=600, nh=1067)))  # cover в карта на отзив: дизайн, не завъртане
         self.assertFalse(rotated(img("a", w=390, h=290, nw=1600, nh=1200)))  # същата ориентация
         self.assertTrue(cropped_thumb(img("a", w=32, h=32, nw=580, nh=1430)))  # бутилка в квадрат 32
         self.assertFalse(cropped_thumb(img("a", w=32, h=32, nw=580, nh=1430, fit="contain")))

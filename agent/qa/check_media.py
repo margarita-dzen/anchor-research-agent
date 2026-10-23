@@ -65,6 +65,8 @@ def rotated(im):
     ra, na = aspect(im.get("w"), im.get("h")), aspect(im.get("nw"), im.get("nh"))
     if not ra or not na or im.get("clone") or min(im["w"], im["h"]) < ROT_MIN_PX:
         return False
+    if im.get("fit") == "cover":  # портрет, изрязан в хоризонтална карта (Judge.me, слайдер): дизайн, не завъртане
+        return False
     if (ra > 1) == (na > 1) or abs(ra - 1) < 0.1 or abs(na - 1) < 0.1:
         return False
     return max(ra / na, na / ra) >= ROT_RATIO
@@ -100,6 +102,7 @@ PAGE_JS = r"""(prod) => {
       const t = walker.currentNode; const el = t.parentElement;
       if (!el || seen.has(el) || t.textContent.trim().length < 3 || !vis(el) || isClone(el)) continue;
       if (['SCRIPT', 'STYLE', 'NOSCRIPT', 'OPTION'].includes(el.tagName)) continue;
+      if (el.closest('header, nav, .header, .shopify-section-group-header-group, [role="dialog"]')) continue;  // хедърът/менюто на магазина не е текст върху снимка
       seen.add(el);
       const rg = document.createRange(); rg.selectNodeContents(t); const tr = rg.getBoundingClientRect();
       if (!tr.width || !tr.height) continue;
