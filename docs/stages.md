@@ -36,6 +36,7 @@
 Всяка заявка „клонирай“ (с или без „абсолютно“/„1:1“) върви по `docs/absolute-clone.md`.
 
 ## реклами
+**UGC ло-фи без продукт + DR копи + скрити лендинги на сайта + Meta CBO: целият поток е в `docs/ugc-ads.md` (Nordics 25.10.2026, одобрен).** Копито винаги е direct response с офертата на лендинга (`docs/ugc-ads-copy-brief.md`).
 anchor-creative-playbook + copy-masters. Преди генерации: `python3 agent/credits.py start runs/<x> ads`, след тях `end`. Всяка реклама: `utm_campaign=<продукт>_<тип>_<месец><год>`, `utm_content=<код>-<автор>`.
 
 ## критика

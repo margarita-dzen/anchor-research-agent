@@ -1,0 +1,99 @@
+<meta charset="utf-8">
+<title>Nordics детски четки: реклами и лендинги</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap">
+<style>
+/* Лейаут: бранд лента горе, после по една секция на лендинг: карта на лендинга + решетка от 10 реклами като във фийда. */
+@font-face{font-family:"Proxima Soft";src:url("emily_cavities/assets/fonts/proxima_soft_regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Proxima Soft";src:url("emily_cavities/assets/fonts/proxima_soft_semibold.woff2") format("woff2");font-weight:600}
+@font-face{font-family:"Proxima Soft";src:url("primals_6_reasons/assets/fonts/proxima_soft_bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Proxima Soft";src:url("emily_cavities/assets/fonts/proxima_soft_black.woff2") format("woff2");font-weight:900}
+:root{
+  --bg:#F6FAF7; --surface:#FFFFFF; --ink:#212529; --soft:#4B5563; --mute:#6B7280; --line:#E3EAE5;
+  --forest:#255D38; --forest-ink:#E4F0E8; --mustard:#FDB913; --mustard-soft:#FFF3D4; --band:#0F341A; --band-ink:#FFFFFF;
+  --font:"Proxima Soft","Nunito",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1A12; --surface:#16251B; --ink:#EAF1EC; --soft:#C3CEC6; --mute:#93A198; --line:#294033;
+  --forest:#8FCBA4; --forest-ink:#1E3526; --mustard:#FDB913; --mustard-soft:#3A3014; --band:#0A2413; --band-ink:#FFFFFF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A12; --surface:#16251B; --ink:#EAF1EC; --soft:#C3CEC6; --mute:#93A198; --line:#294033;
+  --forest:#8FCBA4; --forest-ink:#1E3526; --mustard:#FDB913; --mustard-soft:#3A3014; --band:#0A2413; --band-ink:#FFFFFF; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--font)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:48px 40px;display:grid;gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mustard)}
+h1{font-weight:900;font-size:clamp(28px,4.6vw,46px);line-height:1.15;margin:0;text-wrap:balance;max-width:22ch}
+.band p{margin:0;max-width:68ch;color:#D7E6DC}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 0;padding:0;list-style:none}
+.facts li{border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600}
+nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.jump .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px}
+nav.jump a{white-space:nowrap;text-decoration:none;color:var(--forest);font-weight:700;font-size:14px;padding:6px 12px;border-radius:100px;background:var(--forest-ink)}
+.notes{padding-block:28px 8px;display:grid;gap:10px;color:var(--soft);max-width:80ch}
+.notes h3{margin:0;color:var(--ink);font-size:18px;font-weight:800}
+.notes ul{margin:0;padding-left:20px;display:grid;gap:4px}
+section.lp{padding-block:40px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.lphead{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start;margin-bottom:28px}
+.thumb{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/5;max-width:100%}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.lpinfo{display:grid;gap:10px;min-width:0}
+.lpinfo .eyebrow{color:var(--forest)}
+.lpinfo h2{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.25;font-weight:900;text-wrap:balance}
+.lpinfo p{margin:0;color:var(--soft);max-width:66ch}
+.open{justify-self:start;background:var(--mustard);color:#212529;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:14px;padding:12px 22px;border-radius:100px}
+.open:hover{filter:brightness(.95)}
+.utm{font-size:13px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;align-items:start}
+.ad{display:grid;gap:10px;min-width:0}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.ph{display:flex;gap:10px;align-items:center;padding:12px 14px 6px}
+.av{width:36px;height:36px;border-radius:50%;background:var(--forest-ink);object-fit:contain;padding:4px}
+.ph b{display:block;font-size:14px}.ph small{color:var(--mute);font-size:12px}
+.txt{padding:2px 14px 10px;font-size:14px;line-height:1.45}
+.txt p{margin:0 0 8px}.txt p:last-child{margin:0}
+.txt a{color:var(--forest);font-weight:600}
+.vis{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:var(--line)}
+.pf{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg);border-top:1px solid var(--line)}
+.pfl{display:grid;min-width:0}.pfl small{font-size:11px;color:var(--mute)}
+.pfl b{font-size:14px;line-height:1.3}.pfl span{font-size:13px;color:var(--soft)}
+.btn{flex:none;background:var(--forest-ink);color:var(--ink);font-weight:600;font-size:13px;padding:8px 12px;border-radius:6px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--soft)}
+.code{font-weight:900;color:var(--forest);font-variant-numeric:tabular-nums}
+.ang{flex:1 1 160px;min-width:0}
+.cp{font:600 13px var(--font);color:var(--forest);background:none;border:1px solid var(--forest);border-radius:100px;padding:5px 12px;cursor:pointer}
+.cp:focus-visible,.open:focus-visible,nav.jump a:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+footer.end{padding-block:32px 48px;color:var(--mute);font-size:14px}
+@media (max-width:640px){.lphead{grid-template-columns:1fr}.thumb{max-width:180px}}
+</style>
+
+<div class="band"><div class="wrap">
+  <span class="eyebrow">Nordics · детски електрически четки · октомври 2026</span>
+  <h1>50 UGC реклами за 5 адвърториала</h1>
+  <p>Към всеки адвърториал има по 10 реклами. Снимките са в стил „от телефона на родител“, без продукт и без надписи. Продава текстът: direct response копи с офертата на лендинга (цена, подаръци, гаранция) в 10 различни ъгъла за всеки лендинг. Под всяка реклама е ъгълът ѝ и бутон за копиране на текстовете.</p>
+  <ul class="facts"><li>5 лендинга</li><li>50 визии 1080×1350 (4:5)</li><li>50 текста: хедлайн, описание, основен текст</li><li>CTA: Пазарувай</li></ul>
+</div></div>
+<nav class="jump" aria-label="Лендинги"><div class="wrap"><!--NAV--></div></nav>
+<div class="wrap">
+  <div class="notes">
+    <h3>Как да се чете</h3>
+    <ul>
+      <li>Всяка секция започва с лендинга (бутон „Отвори лендинга“), под него са неговите 10 реклами, точно както ще изглеждат във фийда.</li>
+      <li>Рекламите са за студен трафик. Без продукт в кадъра спират скрола като истинска снимка, а текстът продава директно: болка, механизъм, дословен отзив, оферта с цена, гаранция и ясен призив за поръчка.</li>
+      <li>Отзивите в текстовете са дословни, от истински купувачи, с имената им. Децата на снимките не са децата на авторите на отзивите.</li>
+      <li>Линковете в текстовете водят към лендинга с UTM: utm_campaign е различен за всеки адвърториал, а utm_content е кодът на рекламата (E01, P05…). Така в отчетите се вижда коя реклама и кой лендинг продават.</li>
+    </ul>
+  </div>
+</div>
+<div class="wrap"><!--SECTIONS--></div>
+<div class="wrap"><footer class="end">Nordics Oral Care · подготвено от Anchor Media · 25.10.2026</footer></div>
+<script>
+document.querySelectorAll('.cp').forEach(b => b.addEventListener('click', async () => {
+  const d = JSON.parse(b.dataset.t);
+  const t = `Хедлайн: ${d.h}\nОписание: ${d.d}\nCTA: Пазарувай\n\n${d.b}`;
+  try { await navigator.clipboard.writeText(t); b.textContent = 'Копирано'; }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = t; b.after(ta); ta.select(); b.textContent = 'Маркирано, копирай с Ctrl+C'; }
+  setTimeout(() => { b.textContent = 'Копирай текстовете'; }, 2500);
+}));
+</script>

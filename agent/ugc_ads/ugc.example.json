@@ -1,0 +1,39 @@
+{
+ "root": "~/nordics-kids-clones",
+ "ads_dir": "~/nordics-kids-clones/ads",
+ "per_lp": 10,
+ "locale": "Bulgarian",
+ "product_negative": "electric toothbrush",
+ "site": {
+  "base": "https://wearenordics.com",
+  "auth_file": "~/.config/anchor-research-agent/wp_nordics"
+ },
+ "client": {
+  "brand": "Nordics Oral Care",
+  "avatar": "dentarel_7_reasons/assets/nordics-favicon.png",
+  "campaign_utm": "kids_adv_{pre}_oct26"
+ },
+ "meta": {
+  "token_file": "~/.config/anchor-research-agent/meta_token",
+  "act": "act_<ID>",
+  "page": "<PAGE_ID>",
+  "ig": "<IG_USER_ID>",
+  "pixel": "<PIXEL_ID>",
+  "domain": "wearenordics.com",
+  "campaign": "<Client> | <Product> | Advertorials UGC lofi | <Mon YYYY>",
+  "prefix": "<Short>",
+  "budget_cents": 3000,
+  "country": "BG",
+  "cta": "SHOP_NOW"
+ },
+ "lps": {
+  "E": {
+   "folder": "emily_cavities",
+   "slug": "miehme-vsyaka-vecher",
+   "adset": "E Cavities story",
+   "kind": "Историята на майката",
+   "angle": "Миехме всяка вечер, спряхме сладкото, а зъболекарят пак намери кариес. Не е въпрос на старание, а на това докъде стига детската ръка."
+  }
+ },
+ "_note": "Копирай в runs/<x>/ugc/ugc.json (runs/ не влиза в git). Ключовете са във файлове извън репото. Образец на живо: runs/nordics_kids/ugc/ugc.json локално."
+}

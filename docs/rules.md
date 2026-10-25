@@ -13,6 +13,8 @@
 - Нанасяне = отворен продукт: капачката е махната и се вижда мехлемът. (docs/absolute-clone.md §8.3)
 - Никога „илюстративна снимка“ / „Илюстрация“ / „Рекламна публикация“ / „Publicitate“: нито надпис, нито alt. (feedback_ba_no_illustrative_label, feedback_absolute_clone_rules)
 - Офертният текст по визиите се НАБИРА в HTML, не се генерира. (feedback_offer_creative_typeset_not_generated)
+- Ад копито е винаги direct response: хук с болката, механизъм, дословен отзив, оферта с цени от лендинга, ред без риск и твърд CTA („Пазарувай“). Никога разказ, който завършва с „прочети статията“: Валентин го върна на 25.10.2026. (feedback_ad_copy_direct_response, docs/ugc-ads-copy-brief.md)
+- Скрити лендинги на сайта: `/lp/<slug>/`, noindex, без менюта и sitemap. Meta кампанията се качва PAUSED и се пуска само по изрична дума. (docs/ugc-ads.md)
 - Един маркер за подарък на визия. (feedback_one_gift_marker_per_visual)
 - Изрязаните продукти: непрозрачни, цели, без ореол, истински мащаб. (feedback_product_cutouts_opaque_uncropped)
 - Грешка в генерация → прегенерирай, не кърпи пиксели. (feedback_no_pixel_patches_regenerate)
