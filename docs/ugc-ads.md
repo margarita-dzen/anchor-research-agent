@@ -36,7 +36,8 @@
 - `extract <slug>`: single-use Code Snippet разархивира. **Пускай по един slug.** Всичките наведнъж дават 500 (таймаут), а после махни zip медиите и TEMP снипетите.
 - `route`: глобален снипет сервира `<site>/lp/<slug>/` с `X-Robots-Tag: noindex` и DONOTCACHEPAGE. Страниците не са в менюта, sitemap или търсачки.
 - `check` + headless QA на 390 и 1440 (счупени снимки, 4xx, ширина) + щракване до /checkout/ (сумата е вярна).
-- Лендингите нямат пиксел: покупката се мери на checkout в магазина.
+- Meta проследяване (26.10.2026, задължително преди пускане): маршрутът праща сървърни PageView + ViewContent през плъгина на магазина (SMPL Meta CAPI, fbc от `fbclid`), браузърният пиксел е със същите event ID и само при съгласие `cmplz_marketing=allow`, ботовете се пропускат. Бутоните към количката носят `fbclid` + utm_* на рекламата. Снипетът за количката (`anchor_cart`, Nordics #29) пази fbc в WC сесията и на поръчката (`_anchor_fbc`), праща сървърен AddToCart и дава fbc на всички следващи сървърни събития, вкл. Purchase. Конфиг: `tracking` в ugc.json (pixel, content_ids, value).
+- Проверка: `agent/ugc_ads/e2e_pixel.py` (щракване на всеки лендинг със и без съгласие: fbclid + utm_content стигат до количката, пикселът праща PageView + ViewContent).
 
 ## 5. Документ за клиента
 `python3 agent/ugc_ads/build_client.py <ugc.json>` → `<root>/client.html`: за всеки лендинг карта + 10 реклами като пост във фийда + „Копирай текстовете“. Публикува се като Artifact с `root=<root>` и `files` на партиди под 64MB (визии, cmp/, лендингите). Брандът е в `client_tpl.html`. Валентин го споделя с клиента през Share.
